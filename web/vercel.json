@@ -1,0 +1,19 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "functions": {
+    "app/api/*/route.ts": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "NEXT_PUBLIC_API_URL": "@next_public_api_url",
+    "NEXT_PUBLIC_FIA_CONTRACT_ADDRESS": "@next_public_fia_contract_address",
+    "NEXT_PUBLIC_RPC_BASE_SEPOLIA": "@next_public_rpc_base_sepolia",
+    "NEXT_PUBLIC_NETWORK": "@next_public_network",
+    "NEXT_PUBLIC_CHAIN_ID": "@next_public_chain_id"
+  }
+}
