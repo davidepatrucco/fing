@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+.env.local
+.nyc_output/
+coverage/
+typechain/
+*.tgz
