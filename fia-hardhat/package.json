@@ -8,6 +8,7 @@
   "deploy:local": "npx hardhat run scripts/deploy.ts --network hardhat",
   "verify": "npx hardhat verify --network baseSepolia",
   "airdrop": "node --loader ts-node/esm scripts/airdrop.ts",
+    "verify:v2": "hardhat run scripts/verify-v2.ts --network baseSepolia",
     "leaderboard": "FIA_ADDR=$FIA_ADDR hardhat run scripts/leaderboard.ts --network baseSepolia",
   "monitor": "FIA_ADDR=$FIA_ADDR hardhat run scripts/watch-events.ts --network baseSepolia",
   "test": "npx hardhat test"

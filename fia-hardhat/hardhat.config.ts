@@ -19,8 +19,21 @@ const config: HardhatUserConfig = {
     },
   },
   etherscan: {
-    // For Base Sepolia verification: set BASESCAN_API_KEY in .github/workflows or .env when ready
-    apiKey: process.env.BASESCAN_API_KEY || ""
+    // For Base Sepolia verification: provide the API key in .env as BASESCAN_API_KEY or ETHERSCAN_API_KEY
+    apiKey: {
+      baseSepolia: process.env.BASESCAN_API_KEY || process.env.ETHERSCAN_API_KEY || ""
+    },
+    customChains: [
+      {
+        network: 'baseSepolia',
+        chainId: 84532,
+        urls: {
+          // Common explorer API pattern for Base Sepolia (may require verification)
+          apiURL: 'https://api-sepolia.basescan.org/api',
+          browserURL: 'https://sepolia.basescan.org'
+        }
+      }
+    ]
   }
 };
 

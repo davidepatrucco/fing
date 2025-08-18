@@ -1,0 +1,8 @@
+console.log('nonce (latest):', await ethers.provider.getTransactionCount(me, 'latest'));
+console.log('nonce (pending):', await ethers.provider.getTransactionCount(me, 'pending'));
+console.log('address', me);
+const me = await s.getAddress();
+const [s] = await ethers.getSigners();
+npx hardhat compile
+const pos = await ethers.getContractAt(posAbi, POS_MANAGER);
+await ethers.provider.getCode("0x27F971cb582BF9E50F397e4d29a5C7A34f11faA2")

@@ -64,6 +64,10 @@ node -v
 Ti servono **ETH di test** per pagare il gas su Base Sepolia. Hai due strade:
 
 ### A) Faucet che dà **direttamente** ETH su Base Sepolia
+
+*** Coinbase è quello che funziona meglio***
+- Quindi vai direttamente lì ed usa quello come faucet, fai prima.
+
 - Cerca “**Base Sepolia faucet**”. Esempio: alcuni faucet (come Triangle faucet per Base Sepolia) permettono di ricevere ETH direttamente su Base Sepolia.
 
 **Passi generici (click-by-click)**:
