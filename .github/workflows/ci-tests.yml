@@ -1,0 +1,24 @@
+name: CI - Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - name: Install dependencies
+        working-directory: fia-hardhat
+        run: npm ci
+      - name: Run tests
+        working-directory: fia-hardhat
+        run: npx hardhat test --network hardhat

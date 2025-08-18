@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoin.sol": {
-      "lastModificationDate": 1755530650209,
-      "contentHash": "f563920c34ae634c37ae668bdcfa3caa",
+      "lastModificationDate": 1755530831667,
+      "contentHash": "a4c429853c4cda0b159a2946992b7023",
       "sourceName": "contracts/FIACoin.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -377,6 +377,385 @@
         "IUniswapV3Factory",
         "IUniswapV3Pool",
         "IWETH9"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/node_modules/@openzeppelin/contracts/utils/Pausable.sol": {
+      "lastModificationDate": 1755504624246,
+      "contentHash": "0d47b53e10b1985efbb396f937626279",
+      "sourceName": "@openzeppelin/contracts/utils/Pausable.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "Pausable"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV5.sol": {
+      "lastModificationDate": 1755537761053,
+      "contentHash": "da1657046c6d8320143d9ae3f88377ad",
+      "sourceName": "contracts/FIACoinV5.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "@openzeppelin/contracts/utils/Pausable.sol",
+        "@openzeppelin/contracts/utils/ReentrancyGuard.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "FIACoinV5"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol": {
+      "lastModificationDate": 1755504624249,
+      "contentHash": "190613e556d509d9e9a0ea43dc5d891d",
+      "sourceName": "@openzeppelin/contracts/utils/ReentrancyGuard.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "ReentrancyGuard"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV4.sol": {
+      "lastModificationDate": 1755537083145,
+      "contentHash": "f03ca74657e66beb49aaaa0da2319271",
+      "sourceName": "contracts/FIACoinV4.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "@openzeppelin/contracts/utils/Pausable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "FIACoinV4"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/ReentrantReceiver.sol": {
+      "lastModificationDate": 1755542110846,
+      "contentHash": "960f3d91654b2e5723a71d6d295b136c",
+      "sourceName": "contracts/ReentrantReceiver.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IFIACoin",
+        "ReentrantReceiver"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/MockDEX.sol": {
+      "lastModificationDate": 1755543618490,
+      "contentHash": "aa5e9d391e7e271d3248446a1809caa4",
+      "sourceName": "contracts/MockDEX.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "MockDEX",
+        "MockLP"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/MockToken.sol": {
+      "lastModificationDate": 1755542950207,
+      "contentHash": "284bedc6c78cf471e2bd454b0e69c305",
+      "sourceName": "contracts/MockToken.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "MockToken"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/SimpleMultiSig.sol": {
+      "lastModificationDate": 1755542954311,
+      "contentHash": "021ee6ea11ce0a14e3d0a93aae92c027",
+      "sourceName": "contracts/SimpleMultiSig.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "SimpleMultiSig"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FailingTarget.sol": {
+      "lastModificationDate": 1755543224330,
+      "contentHash": "cad6967377430bb494af69d2c83f1048",
+      "sourceName": "contracts/FailingTarget.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "FailingTarget"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/TestProtectedCaller.sol": {
+      "lastModificationDate": 1755544261089,
+      "contentHash": "961c7a46e4b18c1c1c87fbf655e64aec",
+      "sourceName": "contracts/TestProtectedCaller.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IFIA",
+        "TestProtectedCaller"
       ]
     }
   }

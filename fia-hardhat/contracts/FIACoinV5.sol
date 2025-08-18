@@ -334,7 +334,7 @@ contract FIACoinV5 is ERC20, Ownable, Pausable, ReentrancyGuard {
      * @param lockPeriod Lock period in seconds
      * @param autoCompound Whether to auto-compound rewards
      */
-    function stake(uint256 amount, uint256 lockPeriod, bool autoCompound) external nonReentrant {
+    function stake(uint256 amount, uint256 lockPeriod, bool autoCompound) public nonReentrant {
         require(amount > 0, "Amount must be positive");
         require(
             lockPeriod == LOCK_30_DAYS || 
@@ -843,7 +843,8 @@ contract FIACoinV5 is ERC20, Ownable, Pausable, ReentrancyGuard {
             super._update(from, founderWallet, toFounder);
         }
         if (toBurn > 0) {
-            super._update(from, address(0), toBurn);
+            // Properly burn tokens to reduce totalSupply instead of sending to zero address
+            _burn(from, toBurn);
             tokenStats.totalBurned += toBurn;
         }
         
