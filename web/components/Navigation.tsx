@@ -8,6 +8,9 @@ const navigation = [
   { name: 'Token', href: '/token' },
   { name: 'Leaderboard', href: '/leaderboard' },
   { name: 'Monitor', href: '/monitor' },
+  { name: 'Governance', href: '/governance' },
+  { name: 'Staking', href: '/staking' },
+  { name: 'Multisig', href: '/multisig' },
   { name: 'Tools', href: '/tools' },
   { name: 'Docs', href: '/docs' },
 ];
