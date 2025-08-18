@@ -43,3 +43,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# TypeChain generated files (regenerate as needed)
+/src/types
+
+# temp files
+/tmp
