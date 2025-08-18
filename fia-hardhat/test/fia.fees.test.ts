@@ -1,5 +1,6 @@
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import hre from "hardhat";
+const ethers = (hre as any).ethers;
 
 describe('FIACoin fees', function () {
   it('applies fees, distributes to treasury and founder, and burns correctly', async () => {

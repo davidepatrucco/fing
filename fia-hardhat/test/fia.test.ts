@@ -1,5 +1,6 @@
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import hre from "hardhat";
+const ethers = (hre as any).ethers;
 
 describe('FIACoin basic', function () {
   it('deploys and mints total supply to deployer', async () => {

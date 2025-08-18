@@ -1,4 +1,5 @@
-import { ethers } from "hardhat";
+import hre from "hardhat";
+const ethers = (hre as any).ethers;
 
 async function main() {
   const fiaAddr = process.env.FIA_ADDR;
