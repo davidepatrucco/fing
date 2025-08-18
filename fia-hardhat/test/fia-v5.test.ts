@@ -89,7 +89,7 @@ describe('FIACoinV5 - Comprehensive Tests', function () {
 
       // Vote on proposal
       await expect(fiaUser1.vote(0, true))
-        .to.emit(fia, 'VoteCasted');
+        .to.emit(fia, 'VoteCast');
     });
 
     it('should prevent double voting', async function () {

@@ -23,7 +23,9 @@
     "staking:stake": "npx hardhat run scripts/staking.ts --network baseSepolia -- stake",
     "staking:unstake": "npx hardhat run scripts/staking.ts --network baseSepolia -- unstake",
     "staking:claim-rewards": "npx hardhat run scripts/staking.ts --network baseSepolia -- claim-rewards",
-    "staking:add-rewards": "npx hardhat run scripts/staking.ts --network baseSepolia -- add-rewards"
+    "staking:add-rewards": "npx hardhat run scripts/staking.ts --network baseSepolia -- add-rewards",
+    "migration:demo": "npx hardhat run scripts/migration-v4-to-v5.ts --network hardhat",
+    "features:demo": "npx hardhat run scripts/advanced-features-demo.ts --network hardhat"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
