@@ -31,9 +31,11 @@ export interface ContractInstances {
 }
 
 export function useContracts(): ContractInstances {
-  const { provider, signer } = useWallet();
+  const { getProvider, getSigner } = useWallet();
 
   const contracts = useMemo(() => {
+    const provider = getProvider();
+    const signer = getSigner();
     const providerOrSigner = signer || provider;
     
     if (!providerOrSigner) {
@@ -80,7 +82,7 @@ export function useContracts(): ContractInstances {
         isReady: false,
       };
     }
-  }, [provider, signer]);
+  }, [getProvider, getSigner]);
 
   return contracts;
 }
@@ -145,16 +147,13 @@ export function useFiaContract() {
       }
     },
 
-    // Get user staking info
-    async getStakeInfo(): Promise<{
-      amount: bigint;
-      lockPeriod: number;
-      startTime: bigint;
-      claimed: boolean;
-    } | null> {
+    // Get user staking info (V6 supports multiple stakes, so this gets the first one)
+    async getStakeInfo(stakeIndex: number = 0) {
       if (!fiaContract || !address) return null;
       try {
-        return await fiaContract.userStakes(address);
+        const stakeCount = await fiaContract.getStakeCount(address);
+        if (stakeIndex >= Number(stakeCount)) return null;
+        return await fiaContract.userStakes(address, stakeIndex);
       } catch (error) {
         console.error('Error getting stake info:', error);
         return null;
@@ -162,17 +161,7 @@ export function useFiaContract() {
     },
 
     // Get governance proposal
-    async getProposal(proposalId: number): Promise<{
-      id: bigint;
-      proposer: string;
-      proposalType: number;
-      description: string;
-      data: string;
-      votesFor: bigint;
-      votesAgainst: bigint;
-      startTime: bigint;
-      executed: boolean;
-    } | null> {
+    async getProposal(proposalId: number) {
       if (!fiaContract) return null;
       try {
         return await fiaContract.proposals(proposalId);
@@ -211,7 +200,7 @@ export function useGovernance() {
     ): Promise<ethers.ContractTransactionResponse | null> {
       if (!fiaContract || !address) return null;
       try {
-        return await fiaContract.propose(proposalType, description, data);
+        return await fiaContract.propose(description, proposalType, data);
       } catch (error) {
         console.error('Error creating proposal:', error);
         throw error;
@@ -256,11 +245,12 @@ export function useStaking() {
     // Stake tokens
     async stake(
       amount: bigint,
-      lockPeriod: number
+      lockPeriod: number,
+      autoCompound: boolean = false
     ): Promise<ethers.ContractTransactionResponse | null> {
       if (!fiaContract || !address) return null;
       try {
-        return await fiaContract.stake(amount, lockPeriod);
+        return await fiaContract.stake(amount, lockPeriod, autoCompound);
       } catch (error) {
         console.error('Error staking:', error);
         throw error;
@@ -268,10 +258,12 @@ export function useStaking() {
     },
 
     // Unstake tokens
-    async unstake(): Promise<ethers.ContractTransactionResponse | null> {
+    async unstake(
+      stakeIndex: number
+    ): Promise<ethers.ContractTransactionResponse | null> {
       if (!fiaContract || !address) return null;
       try {
-        return await fiaContract.unstake();
+        return await fiaContract.unstake(stakeIndex);
       } catch (error) {
         console.error('Error unstaking:', error);
         throw error;
@@ -279,10 +271,12 @@ export function useStaking() {
     },
 
     // Claim rewards
-    async claimRewards(): Promise<ethers.ContractTransactionResponse | null> {
+    async claimRewards(
+      stakeIndex: number
+    ): Promise<ethers.ContractTransactionResponse | null> {
       if (!fiaContract || !address) return null;
       try {
-        return await fiaContract.claimRewards();
+        return await fiaContract.claimRewards(stakeIndex);
       } catch (error) {
         console.error('Error claiming rewards:', error);
         throw error;

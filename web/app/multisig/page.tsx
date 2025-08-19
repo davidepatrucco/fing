@@ -17,8 +17,8 @@ interface Transaction {
 }
 
 export default function MultisigPage() {
-  const { isConnected, connectWallet, getSigner, address } = useWallet();
-  const { getMultisigContract } = useContracts();
+  const { isConnected, connectWallet, address } = useWallet();
+  const { multiSigContract } = useContracts();
   
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isOwner, setIsOwner] = useState(false);
@@ -35,61 +35,53 @@ export default function MultisigPage() {
   });
 
   const fetchMultisigData = async () => {
-    if (!isConnected || !address) return;
-
-    const contractAddress = process.env.NEXT_PUBLIC_MULTISIG_CONTRACT_ADDRESS;
-    if (!contractAddress) {
-      setError('Multisig contract address not configured');
-      return;
-    }
+    if (!isConnected || !address || !multiSigContract) return;
 
     try {
       setLoading(true);
       setError(null);
       
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
-      
-      const contract = getMultisigContract(signer);
-      
       // Check if user is an owner and get required confirmations
-      const [userIsOwner, requiredConfirmations, txCount] = await Promise.all([
-        contract.isOwner(address),
-        contract.required(),
-        contract.getTransactionCount()
+      const [userIsOwner, requiredConfirmations] = await Promise.all([
+        multiSigContract.isOwner(address),
+        multiSigContract.required()
       ]);
 
       setIsOwner(userIsOwner);
       setRequired(Number(requiredConfirmations));
 
-      // Fetch recent transactions (last 20)
+      // Fetch recent transactions (try to get last 20, handling any that don't exist)
       const txPromises = [];
-      const startIndex = Math.max(0, Number(txCount) - 20);
+      const maxTxToTry = 20; // Try to fetch up to 20 transactions
       
-      for (let i = startIndex; i < Number(txCount); i++) {
+      for (let i = 0; i < maxTxToTry; i++) {
         txPromises.push(
           Promise.all([
-            contract.transactions(i),
-            contract.getConfirmationCount(i),
-            contract.confirmations(i, address)
-          ])
+            multiSigContract.transactions(i).catch(() => null),
+            multiSigContract.isConfirmed(i, address).catch(() => false)
+          ]).catch(() => [null, false])
         );
       }
 
       const txResults = await Promise.all(txPromises);
       
-      const formattedTxs: Transaction[] = txResults.map(([tx, confirmCount, isConfirmed], index) => ({
-        id: startIndex + index,
-        destination: tx.destination,
-        value: ethers.formatEther(tx.value),
-        data: tx.data,
-        executed: tx.executed,
-        confirmationCount: Number(confirmCount),
-        required: Number(requiredConfirmations),
-        isConfirmed: isConfirmed
-      })).reverse(); // Show newest first
+      const validTransactions = txResults
+        .map(([tx, isConfirmed], index) => {
+          if (!tx || typeof tx === 'boolean') return null;
+          return {
+            id: index,
+            destination: tx.to,
+            value: ethers.formatEther(tx.value),
+            data: tx.data,
+            executed: tx.executed,
+            confirmationCount: Number(tx.confirmations),
+            required: Number(requiredConfirmations),
+            isConfirmed: isConfirmed as boolean
+          };
+        })
+        .filter((tx): tx is Transaction => tx !== null);
 
-      setTransactions(formattedTxs);
+      setTransactions(validTransactions.reverse()); // Show newest first
 
     } catch (err) {
       console.error('Error fetching multisig data:', err);
@@ -100,18 +92,15 @@ export default function MultisigPage() {
   };
 
   const handleSubmitTransaction = async () => {
-    if (!isConnected || !newTx.destination.trim()) return;
+    if (!isConnected || !newTx.destination.trim() || !multiSigContract) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
-      
-      const contract = getMultisigContract(signer);
+      setLoading(true);
       
       const value = newTx.value ? ethers.parseEther(newTx.value) : 0;
       const data = newTx.data || '0x';
 
-      const tx = await contract.submitTransaction(newTx.destination, value, data);
+      const tx = await multiSigContract.submitTransaction(newTx.destination, value, data);
       await tx.wait();
       
       // Refresh data and close form
@@ -122,19 +111,18 @@ export default function MultisigPage() {
     } catch (err) {
       console.error('Error submitting transaction:', err);
       setError(err instanceof Error ? err.message : 'Failed to submit transaction');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleConfirmTransaction = async (txId: number) => {
-    if (!isConnected) return;
+    if (!isConnected || !multiSigContract) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
+      setLoading(true);
       
-      const contract = getMultisigContract(signer);
-      
-      const tx = await contract.confirmTransaction(txId);
+      const tx = await multiSigContract.confirmTransaction(txId);
       await tx.wait();
       
       // Refresh data
@@ -143,19 +131,18 @@ export default function MultisigPage() {
     } catch (err) {
       console.error('Error confirming transaction:', err);
       setError(err instanceof Error ? err.message : 'Failed to confirm transaction');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleExecuteTransaction = async (txId: number) => {
-    if (!isConnected) return;
+    if (!isConnected || !multiSigContract) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
+      setLoading(true);
       
-      const contract = getMultisigContract(signer);
-      
-      const tx = await contract.executeTransaction(txId);
+      const tx = await multiSigContract.executeTransaction(txId);
       await tx.wait();
       
       // Refresh data
@@ -164,6 +151,8 @@ export default function MultisigPage() {
     } catch (err) {
       console.error('Error executing transaction:', err);
       setError(err instanceof Error ? err.message : 'Failed to execute transaction');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -173,9 +162,7 @@ export default function MultisigPage() {
     }
   }, [isConnected, address]);
 
-  const contractAddress = process.env.NEXT_PUBLIC_MULTISIG_CONTRACT_ADDRESS;
-
-  if (!contractAddress) {
+  if (!multiSigContract) {
     return (
       <div className="min-h-screen py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -187,7 +174,7 @@ export default function MultisigPage() {
             </h1>
             <div className="bg-yellow-900/20 border border-yellow-500/20 rounded-lg p-6 mt-8">
               <p className="text-yellow-200">
-                Multisig contract address not configured. Please set NEXT_PUBLIC_MULTISIG_CONTRACT_ADDRESS in your environment.
+                Multisig contract address not configured. Please set NEXT_PUBLIC_MULTISIG_ADDRESS in your environment.
               </p>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useWallet } from '../../src/hooks/useWallet';
-import { useContracts } from '../../src/hooks/useContracts';
+import { useContracts, useStaking, useFiaContract } from '../../src/hooks/useContracts';
 import { ethers } from 'ethers';
 
 interface StakeInfo {
@@ -15,8 +15,10 @@ interface StakeInfo {
 }
 
 export default function StakingPage() {
-  const { isConnected, connectWallet, getSigner, address } = useWallet();
-  const { getFiaContract } = useContracts();
+  const { isConnected, connectWallet, address } = useWallet();
+  const { fiaContract } = useContracts();
+  const { stake, unstake, claimRewards, getStakingAPY } = useStaking();
+  const { getBalance, getStakeInfo } = useFiaContract();
   
   const [stakes, setStakes] = useState<StakeInfo[]>([]);
   const [rewards, setRewards] = useState<string>('0');
@@ -32,29 +34,49 @@ export default function StakingPage() {
   });
 
   const fetchStakingData = async () => {
-    if (!isConnected || !address) return;
+    if (!isConnected || !address || !fiaContract) return;
 
     try {
       setLoading(true);
       setError(null);
       
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
-      
-      const contract = getFiaContract(signer);
-      
-      // Fetch user balance and rewards
-      const [userBalance, userRewards] = await Promise.all([
-        contract.balanceOf(address),
-        contract.getStakingRewards(address)
-      ]);
+      // Fetch user balance and all stakes
+      const userBalance = await getBalance();
 
-      setBalance(ethers.formatUnits(userBalance, 18));
-      setRewards(ethers.formatUnits(userRewards, 18));
+      if (userBalance) {
+        setBalance(ethers.formatUnits(userBalance, 18));
+      }
 
-      // TODO: Fetch user stakes (this would require additional contract functions)
-      // For now, we'll use a placeholder
-      setStakes([]);
+      // Get stake count and fetch all stakes
+      const stakeCount = await fiaContract.getStakeCount(address);
+      const allStakes = [];
+      let totalRewards = BigInt(0);
+
+      for (let i = 0; i < Number(stakeCount); i++) {
+        try {
+          const stakeData = await fiaContract.userStakes(address, i);
+          if (stakeData.amount > BigInt(0)) {
+            // Calculate rewards for this stake
+            const rewardsAmount = await fiaContract.calculateRewards(address, i);
+            totalRewards += rewardsAmount;
+
+            const stakeDisplay: StakeInfo = {
+              index: i,
+              amount: ethers.formatUnits(stakeData.amount, 18),
+              lockPeriod: Number(stakeData.lockPeriod) / (24 * 60 * 60), // Convert seconds to days
+              autoCompound: stakeData.autoCompound || false,
+              startTime: Number(stakeData.stakingTime),
+              canUnstake: Date.now() / 1000 > Number(stakeData.stakingTime) + Number(stakeData.lockPeriod)
+            };
+            allStakes.push(stakeDisplay);
+          }
+        } catch (error) {
+          console.log(`Error fetching stake ${i}:`, error);
+        }
+      }
+
+      setStakes(allStakes);
+      setRewards(ethers.formatUnits(totalRewards, 18));
 
     } catch (err) {
       console.error('Error fetching staking data:', err);
@@ -68,24 +90,26 @@ export default function StakingPage() {
     if (!isConnected || !stakeForm.amount || parseFloat(stakeForm.amount) <= 0) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
-      
-      const contract = getFiaContract(signer);
+      setLoading(true);
       
       const amountWei = ethers.parseUnits(stakeForm.amount, 18);
       const lockPeriodSeconds = stakeForm.lockPeriod * 24 * 60 * 60; // Convert days to seconds
 
-      const tx = await contract.stake(amountWei, lockPeriodSeconds, stakeForm.autoCompound);
-      await tx.wait();
+      const tx = await stake(amountWei, lockPeriodSeconds, stakeForm.autoCompound);
       
-      // Refresh data and reset form
-      await fetchStakingData();
-      setStakeForm({ amount: '', lockPeriod: 30, autoCompound: false });
+      if (tx) {
+        await tx.wait();
+        
+        // Refresh data and reset form
+        await fetchStakingData();
+        setStakeForm({ amount: '', lockPeriod: 30, autoCompound: false });
+      }
       
     } catch (err) {
       console.error('Error staking:', err);
       setError(err instanceof Error ? err.message : 'Failed to stake tokens');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,41 +117,47 @@ export default function StakingPage() {
     if (!isConnected) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
+      setLoading(true);
       
-      const contract = getFiaContract(signer);
+      const tx = await unstake(index);
       
-      const tx = await contract.unstake(index);
-      await tx.wait();
-      
-      // Refresh data
-      await fetchStakingData();
+      if (tx) {
+        await tx.wait();
+        
+        // Refresh data
+        await fetchStakingData();
+      }
       
     } catch (err) {
       console.error('Error unstaking:', err);
       setError(err instanceof Error ? err.message : 'Failed to unstake tokens');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleClaimRewards = async () => {
+  const handleClaimRewards = async (stakeIndex?: number) => {
     if (!isConnected) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
+      setLoading(true);
       
-      const contract = getFiaContract(signer);
+      // If no specific stake index, claim rewards for the first stake (for simplicity)
+      const indexToUse = stakeIndex !== undefined ? stakeIndex : 0;
+      const tx = await claimRewards(indexToUse);
       
-      const tx = await contract.claimStakingRewards();
-      await tx.wait();
-      
-      // Refresh data
-      await fetchStakingData();
+      if (tx) {
+        await tx.wait();
+        
+        // Refresh data
+        await fetchStakingData();
+      }
       
     } catch (err) {
       console.error('Error claiming rewards:', err);
       setError(err instanceof Error ? err.message : 'Failed to claim rewards');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -191,7 +221,7 @@ export default function StakingPage() {
                 <p className="text-2xl font-bold text-green-400">{parseFloat(rewards).toFixed(4)} FIA</p>
                 {hasRewards && (
                   <button
-                    onClick={handleClaimRewards}
+                    onClick={() => handleClaimRewards()}
                     className="mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-semibold transition-colors"
                   >
                     Claim Rewards
