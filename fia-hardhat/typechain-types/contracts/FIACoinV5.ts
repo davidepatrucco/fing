@@ -1096,7 +1096,7 @@ export interface FIACoinV5 extends BaseContract {
   borrowAgainstStake: TypedContractMethod<
     [collateralAmount: BigNumberish],
     [void],
-    "nonpayable"
+    "view"
   >;
 
   bridgeTokens: TypedContractMethod<
@@ -1118,7 +1118,7 @@ export interface FIACoinV5 extends BaseContract {
   depositToYieldFarm: TypedContractMethod<
     [protocol: AddressLike, amount: BigNumberish],
     [void],
-    "nonpayable"
+    "view"
   >;
 
   emergencyPause: TypedContractMethod<[], [void], "nonpayable">;
@@ -1140,7 +1140,7 @@ export interface FIACoinV5 extends BaseContract {
   flashLoan: TypedContractMethod<
     [amount: BigNumberish, data: BytesLike],
     [void],
-    "nonpayable"
+    "view"
   >;
 
   founderWallet: TypedContractMethod<[], [string], "view">;
@@ -1483,11 +1483,7 @@ export interface FIACoinV5 extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "borrowAgainstStake"
-  ): TypedContractMethod<
-    [collateralAmount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[collateralAmount: BigNumberish], [void], "view">;
   getFunction(
     nameOrSignature: "bridgeTokens"
   ): TypedContractMethod<
@@ -1509,7 +1505,7 @@ export interface FIACoinV5 extends BaseContract {
   ): TypedContractMethod<
     [protocol: AddressLike, amount: BigNumberish],
     [void],
-    "nonpayable"
+    "view"
   >;
   getFunction(
     nameOrSignature: "emergencyPause"
@@ -1534,7 +1530,7 @@ export interface FIACoinV5 extends BaseContract {
   ): TypedContractMethod<
     [amount: BigNumberish, data: BytesLike],
     [void],
-    "nonpayable"
+    "view"
   >;
   getFunction(
     nameOrSignature: "founderWallet"

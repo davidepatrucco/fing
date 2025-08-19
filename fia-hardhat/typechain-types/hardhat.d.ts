@@ -58,6 +58,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FIACoin__factory>;
     getContractFactory(
+      name: "FIACoin",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FIACoin__factory>;
+    getContractFactory(
       name: "FIACoinV4",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FIACoinV4__factory>;
@@ -198,6 +202,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.FIACoin>;
     getContractAt(
+      name: "FIACoin",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FIACoin>;
+    getContractAt(
       name: "FIACoinV4",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -348,6 +357,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FIACoin>;
     deployContract(
+      name: "FIACoin",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FIACoin>;
+    deployContract(
       name: "FIACoinV4",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FIACoinV4>;
@@ -482,6 +495,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FailingTarget>;
+    deployContract(
+      name: "FIACoin",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FIACoin>;
     deployContract(
       name: "FIACoin",
       args: any[],

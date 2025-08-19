@@ -6,7 +6,7 @@ describe('FIACoin fees', function () {
   it('applies fees, distributes to treasury and founder, and burns correctly', async () => {
     const [deployer, treasury, founder, a, b] = await ethers.getSigners();
 
-    const FIA = await ethers.getContractFactory('FIACoin');
+  const FIA = await ethers.getContractFactory('contracts/FIACoin.sol:FIACoin');
     const fia = await FIA.deploy(treasury.address, founder.address);
     await fia.waitForDeployment();
 

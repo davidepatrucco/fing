@@ -243,7 +243,7 @@ export interface MockDEX extends BaseContract {
       lpAddr: AddressLike,
       from: AddressLike,
       to: AddressLike,
-      amount: BigNumberish
+      arg3: BigNumberish
     ],
     [void],
     "nonpayable"
@@ -308,7 +308,7 @@ export interface MockDEX extends BaseContract {
       lpAddr: AddressLike,
       from: AddressLike,
       to: AddressLike,
-      amount: BigNumberish
+      arg3: BigNumberish
     ],
     [void],
     "nonpayable"

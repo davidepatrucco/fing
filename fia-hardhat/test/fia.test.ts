@@ -5,7 +5,7 @@ const ethers = (hre as any).ethers;
 describe('FIACoin basic', function () {
   it('deploys and mints total supply to deployer', async () => {
     const [deployer] = await ethers.getSigners();
-    const FIA = await ethers.getContractFactory('FIACoin');
+  const FIA = await ethers.getContractFactory('contracts/FIACoin.sol:FIACoin');
     const fia = await FIA.deploy(deployer.address, deployer.address);
     await fia.waitForDeployment();
 
@@ -16,7 +16,7 @@ describe('FIACoin basic', function () {
 
   it('emits Fingered on transfer', async () => {
   const [deployer, a, b] = await ethers.getSigners();
-  const FIA = await ethers.getContractFactory('FIACoin');
+  const FIA = await ethers.getContractFactory('contracts/FIACoin.sol:FIACoin');
   const fia = await FIA.deploy(deployer.address, deployer.address);
   await fia.waitForDeployment();
 

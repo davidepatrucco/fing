@@ -313,15 +313,19 @@ export namespace FeeConfigurationChangedEvent {
 
 export namespace FeeDistributionChangedEvent {
   export type InputTuple = [
-    treasury: BigNumberish,
-    founder: BigNumberish,
-    burn: BigNumberish
+    treasuryBP: BigNumberish,
+    founderBP: BigNumberish,
+    burnBP: BigNumberish
   ];
-  export type OutputTuple = [treasury: bigint, founder: bigint, burn: bigint];
+  export type OutputTuple = [
+    treasuryBP: bigint,
+    founderBP: bigint,
+    burnBP: bigint
+  ];
   export interface OutputObject {
-    treasury: bigint;
-    founder: bigint;
-    burn: bigint;
+    treasuryBP: bigint;
+    founderBP: bigint;
+    burnBP: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -503,9 +507,9 @@ export interface FIACoinV4 extends BaseContract {
     [
       [bigint, bigint, bigint, bigint] & {
         total: bigint;
-        treasury: bigint;
-        founder: bigint;
-        burn: bigint;
+        treasuryBP_: bigint;
+        founderBP_: bigint;
+        burnBP_: bigint;
       }
     ],
     "view"
@@ -524,7 +528,11 @@ export interface FIACoinV4 extends BaseContract {
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
 
   setFeeDistribution: TypedContractMethod<
-    [_treasury: BigNumberish, _founder: BigNumberish, _burn: BigNumberish],
+    [
+      _treasuryBP: BigNumberish,
+      _founderBP: BigNumberish,
+      _burnBP: BigNumberish
+    ],
     [void],
     "nonpayable"
   >;
@@ -632,9 +640,9 @@ export interface FIACoinV4 extends BaseContract {
     [
       [bigint, bigint, bigint, bigint] & {
         total: bigint;
-        treasury: bigint;
-        founder: bigint;
-        burn: bigint;
+        treasuryBP_: bigint;
+        founderBP_: bigint;
+        burnBP_: bigint;
       }
     ],
     "view"
@@ -660,7 +668,11 @@ export interface FIACoinV4 extends BaseContract {
   getFunction(
     nameOrSignature: "setFeeDistribution"
   ): TypedContractMethod<
-    [_treasury: BigNumberish, _founder: BigNumberish, _burn: BigNumberish],
+    [
+      _treasuryBP: BigNumberish,
+      _founderBP: BigNumberish,
+      _burnBP: BigNumberish
+    ],
     [void],
     "nonpayable"
   >;

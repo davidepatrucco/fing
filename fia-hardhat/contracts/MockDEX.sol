@@ -214,7 +214,7 @@ contract MockDEX {
     }
 
     // Called by MockLP via transfer hooks to keep lpHolderBalance in sync
-    function onLPTransfer(address lpAddr, address from, address to, uint256 amount) external {
+    function onLPTransfer(address lpAddr, address from, address to, uint256 /*amount*/) external {
         // only accept calls from LP token
         bytes32 h = lpToPair[lpAddr];
         require(h != bytes32(0), "Unknown LP");

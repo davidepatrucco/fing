@@ -170,6 +170,8 @@ contract FIACoinV6 is ERC20, Ownable, Pausable, ReentrancyGuard {
     // Batch operation events
     event BatchTransfer(address indexed from, uint256 totalAmount, uint256 recipientCount);
     event BatchStaking(address indexed user, uint256 totalAmount, uint256 stakeCount);
+    // Optional lightweight event for metadata visibility (no raw bytes on-chain)
+    event TransferWithDataLite(address indexed from, address indexed to, uint256 amount, bytes32 memoHash);
     
     // =============================================================
     //                         CONSTRUCTOR
@@ -367,6 +369,44 @@ contract FIACoinV6 is ERC20, Ownable, Pausable, ReentrancyGuard {
     }
 
     // =============================================================
+    //                 ADVANCED TRANSFER FEATURES (V6)
+    // =============================================================
+
+    /**
+     * @notice Transfer with attached data (data is not stored; useful for off-chain indexing)
+     */
+    function transferWithData(
+        address to,
+        uint256 amount,
+        bytes calldata data
+    ) external returns (bool) {
+        _transfer(msg.sender, to, amount);
+        emit TransferWithDataLite(msg.sender, to, amount, keccak256(data));
+        return true;
+    }
+
+    /**
+     * @notice Batch transfer to multiple recipients; fees apply per leg
+     */
+    function batchTransfer(
+        address[] memory recipients,
+        uint256[] memory amounts
+    ) external returns (bool) {
+        require(recipients.length == amounts.length, "Array length mismatch");
+        uint256 total;
+        for (uint256 i = 0; i < amounts.length; i++) {
+            total += amounts[i];
+        }
+        require(balanceOf(msg.sender) >= total, "Insufficient balance");
+
+        for (uint256 i = 0; i < recipients.length; i++) {
+            _transfer(msg.sender, recipients[i], amounts[i]);
+        }
+        emit BatchTransfer(msg.sender, total, recipients.length);
+        return true;
+    }
+
+    // =============================================================
     //                       ADMIN FUNCTIONS
     // =============================================================
     
@@ -554,7 +594,7 @@ contract FIACoinV6 is ERC20, Ownable, Pausable, ReentrancyGuard {
         }
     }
 
-    function _updateAnalytics(address from, address to, uint256 amount) internal {
+    function _updateAnalytics(address from, address to, uint256 /*amount*/) internal {
         tokenStats.transactionCount++;
         userStats[from].transactionCount++;
         

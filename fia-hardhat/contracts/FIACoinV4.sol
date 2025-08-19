@@ -55,7 +55,7 @@ contract FIACoinV4 is ERC20, Ownable, Pausable {
     event Fingered(address indexed from, address indexed to, uint256 amount);
     event FeeExemptionSet(address indexed account, bool exempt);
     event FeeConfigurationChanged(uint256 oldFee, uint256 newFee);
-    event FeeDistributionChanged(uint256 treasury, uint256 founder, uint256 burn);
+    event FeeDistributionChanged(uint256 treasuryBP, uint256 founderBP, uint256 burnBP);
     event EmergencyAction(string action, address actor);
     
     // =============================================================
@@ -123,18 +123,24 @@ contract FIACoinV4 is ERC20, Ownable, Pausable {
      * @param _founder Founder allocation in basis points  
      * @param _burn Burn allocation in basis points
      */
+    /**
+     * @notice Set fee distribution with validation
+     * @param _treasuryBP Treasury allocation in basis points
+     * @param _founderBP Founder allocation in basis points
+     * @param _burnBP Burn allocation in basis points
+     */
     function setFeeDistribution(
-        uint256 _treasury,
-        uint256 _founder,
-        uint256 _burn
+        uint256 _treasuryBP,
+        uint256 _founderBP,
+        uint256 _burnBP
     ) external onlyOwner {
-        require(_treasury + _founder + _burn == totalFeeBP, "Distribution must equal total fee");
+        require(_treasuryBP + _founderBP + _burnBP == totalFeeBP, "Distribution must equal total fee");
         
-        feeToTreasuryBP = _treasury;
-        feeToFounderBP = _founder;
-        feeToBurnBP = _burn;
+        feeToTreasuryBP = _treasuryBP;
+        feeToFounderBP = _founderBP;
+        feeToBurnBP = _burnBP;
         
-        emit FeeDistributionChanged(_treasury, _founder, _burn);
+        emit FeeDistributionChanged(_treasuryBP, _founderBP, _burnBP);
     }
     
     /**
@@ -225,9 +231,9 @@ contract FIACoinV4 is ERC20, Ownable, Pausable {
      */
     function getFeeBreakdown() external view returns (
         uint256 total,
-        uint256 treasury,
-        uint256 founder,
-        uint256 burn
+        uint256 treasuryBP_,
+        uint256 founderBP_,
+        uint256 burnBP_
     ) {
         return (totalFeeBP, feeToTreasuryBP, feeToFounderBP, feeToBurnBP);
     }

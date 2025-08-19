@@ -267,10 +267,10 @@
         "IERC20Metadata"
       ]
     },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/LPTimelock.sol": {
-      "lastModificationDate": 1755504417721,
-      "contentHash": "95daeac7948600316988d677601218c3",
-      "sourceName": "contracts/LPTimelock.sol",
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/MockDEX.sol": {
+      "lastModificationDate": 1755617347884,
+      "contentHash": "367e5c5170eea7fe631997d6da404b4d",
+      "sourceName": "contracts/MockDEX.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -295,88 +295,16 @@
           }
         }
       },
-      "imports": [],
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
       "versionPragmas": [
         "^0.8.20"
       ],
       "artifacts": [
-        "IERC20",
-        "LPTimelock"
-      ]
-    },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/NFTTimelock.sol": {
-      "lastModificationDate": 1755504424025,
-      "contentHash": "57cb46b6b8fe4bf8a61dc2522f334e78",
-      "sourceName": "contracts/NFTTimelock.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IERC721",
-        "NFTTimelock"
-      ]
-    },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/interfaces/IUniswapV3.sol": {
-      "lastModificationDate": 1755527922776,
-      "contentHash": "ec16d1f0f771f135ffe39f5085387963",
-      "sourceName": "contracts/interfaces/IUniswapV3.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IUniswapV3Factory",
-        "IUniswapV3Pool",
-        "IWETH9"
+        "MockDEX",
+        "MockLP"
       ]
     },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/node_modules/@openzeppelin/contracts/utils/Pausable.sol": {
@@ -417,10 +345,10 @@
         "Pausable"
       ]
     },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV5.sol": {
-      "lastModificationDate": 1755605043846,
-      "contentHash": "e879fe9b706a0d3dab91ee768052feba",
-      "sourceName": "contracts/FIACoinV5.sol",
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV6.sol": {
+      "lastModificationDate": 1755617341613,
+      "contentHash": "3cf2043ae3b1bd150457e0d911406d16",
+      "sourceName": "contracts/FIACoinV6.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -455,7 +383,7 @@
         "^0.8.20"
       ],
       "artifacts": [
-        "FIACoinV5"
+        "FIACoinV6"
       ]
     },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol": {
@@ -494,9 +422,50 @@
         "ReentrancyGuard"
       ]
     },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV5.sol": {
+      "lastModificationDate": 1755617403996,
+      "contentHash": "7b4581cc1562b147c56e7f53e1f57ef2",
+      "sourceName": "contracts/FIACoinV5.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "@openzeppelin/contracts/utils/Pausable.sol",
+        "@openzeppelin/contracts/utils/ReentrancyGuard.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "FIACoinV5"
+      ]
+    },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV4.sol": {
-      "lastModificationDate": 1755537083145,
-      "contentHash": "f03ca74657e66beb49aaaa0da2319271",
+      "lastModificationDate": 1755617392600,
+      "contentHash": "dd201887868db92930355d90d82db144",
       "sourceName": "contracts/FIACoinV4.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -534,47 +503,10 @@
         "FIACoinV4"
       ]
     },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/ReentrantReceiver.sol": {
-      "lastModificationDate": 1755542110846,
-      "contentHash": "960f3d91654b2e5723a71d6d295b136c",
-      "sourceName": "contracts/ReentrantReceiver.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IFIACoin",
-        "ReentrantReceiver"
-      ]
-    },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/MockDEX.sol": {
-      "lastModificationDate": 1755543618490,
-      "contentHash": "aa5e9d391e7e271d3248446a1809caa4",
-      "sourceName": "contracts/MockDEX.sol",
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinFixed.sol": {
+      "lastModificationDate": 1755614169329,
+      "contentHash": "68ab56b8b9c902fc0cc72c542422d643",
+      "sourceName": "contracts/FIACoinFixed.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -601,14 +533,13 @@
       },
       "imports": [
         "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+        "@openzeppelin/contracts/access/Ownable.sol"
       ],
       "versionPragmas": [
         "^0.8.20"
       ],
       "artifacts": [
-        "MockDEX",
-        "MockLP"
+        "FIACoin"
       ]
     },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/MockToken.sol": {
@@ -649,6 +580,189 @@
         "MockToken"
       ]
     },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FailingTarget.sol": {
+      "lastModificationDate": 1755543224330,
+      "contentHash": "cad6967377430bb494af69d2c83f1048",
+      "sourceName": "contracts/FailingTarget.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "FailingTarget"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/LPTimelock.sol": {
+      "lastModificationDate": 1755526731686,
+      "contentHash": "95daeac7948600316988d677601218c3",
+      "sourceName": "contracts/LPTimelock.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IERC20",
+        "LPTimelock"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/MockSafe.sol": {
+      "lastModificationDate": 1755609698238,
+      "contentHash": "a499d14a99eb11da54a082945db909f0",
+      "sourceName": "contracts/MockSafe.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "MockSafe"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/NFTTimelock.sol": {
+      "lastModificationDate": 1755526731686,
+      "contentHash": "57cb46b6b8fe4bf8a61dc2522f334e78",
+      "sourceName": "contracts/NFTTimelock.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IERC721",
+        "NFTTimelock"
+      ]
+    },
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/ReentrantReceiver.sol": {
+      "lastModificationDate": 1755542110846,
+      "contentHash": "960f3d91654b2e5723a71d6d295b136c",
+      "sourceName": "contracts/ReentrantReceiver.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IFIACoin",
+        "ReentrantReceiver"
+      ]
+    },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/SimpleMultiSig.sol": {
       "lastModificationDate": 1755607068085,
       "contentHash": "6f140a9e8d2363989ecc66f6b8de0bee",
@@ -685,10 +799,10 @@
         "SimpleMultiSig"
       ]
     },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FailingTarget.sol": {
-      "lastModificationDate": 1755543224330,
-      "contentHash": "cad6967377430bb494af69d2c83f1048",
-      "sourceName": "contracts/FailingTarget.sol",
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/TestCaller.sol": {
+      "lastModificationDate": 1755610137746,
+      "contentHash": "d4815cc6767f87794691d588c295b62f",
+      "sourceName": "contracts/TestCaller.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -718,7 +832,8 @@
         "^0.8.20"
       ],
       "artifacts": [
-        "FailingTarget"
+        "IFIACoin",
+        "TestCaller"
       ]
     },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/TestProtectedCaller.sol": {
@@ -758,51 +873,10 @@
         "TestProtectedCaller"
       ]
     },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV6.sol": {
-      "lastModificationDate": 1755609464057,
-      "contentHash": "00f8cd38e7e8dfea74e46b17860b890f",
-      "sourceName": "contracts/FIACoinV6.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "@openzeppelin/contracts/access/Ownable.sol",
-        "@openzeppelin/contracts/utils/Pausable.sol",
-        "@openzeppelin/contracts/utils/ReentrancyGuard.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "FIACoinV6"
-      ]
-    },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/MockSafe.sol": {
-      "lastModificationDate": 1755609698238,
-      "contentHash": "a499d14a99eb11da54a082945db909f0",
-      "sourceName": "contracts/MockSafe.sol",
+    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/interfaces/IUniswapV3.sol": {
+      "lastModificationDate": 1755527922776,
+      "contentHash": "ec16d1f0f771f135ffe39f5085387963",
+      "sourceName": "contracts/interfaces/IUniswapV3.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -832,44 +906,9 @@
         "^0.8.20"
       ],
       "artifacts": [
-        "MockSafe"
-      ]
-    },
-    "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/TestCaller.sol": {
-      "lastModificationDate": 1755610137746,
-      "contentHash": "d4815cc6767f87794691d588c295b62f",
-      "sourceName": "contracts/TestCaller.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IFIACoin",
-        "TestCaller"
+        "IUniswapV3Factory",
+        "IUniswapV3Pool",
+        "IWETH9"
       ]
     }
   }

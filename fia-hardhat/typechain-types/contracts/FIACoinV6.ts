@@ -41,6 +41,7 @@ export interface FIACoinV6Interface extends Interface {
       | "allowance"
       | "approve"
       | "balanceOf"
+      | "batchTransfer"
       | "burn"
       | "decimals"
       | "emergencyPause"
@@ -81,6 +82,7 @@ export interface FIACoinV6Interface extends Interface {
       | "transfer"
       | "transferFrom"
       | "transferOwnership"
+      | "transferWithData"
       | "treasury"
       | "txLimits"
       | "usedNonces"
@@ -107,6 +109,7 @@ export interface FIACoinV6Interface extends Interface {
       | "RewardClaimed"
       | "Staked"
       | "Transfer"
+      | "TransferWithDataLite"
       | "Unpaused"
       | "Unstaked"
       | "VoteCast"
@@ -171,6 +174,10 @@ export interface FIACoinV6Interface extends Interface {
   encodeFunctionData(
     functionFragment: "balanceOf",
     values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "batchTransfer",
+    values: [AddressLike[], BigNumberish[]]
   ): string;
   encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
@@ -311,6 +318,10 @@ export interface FIACoinV6Interface extends Interface {
     functionFragment: "transferOwnership",
     values: [AddressLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "transferWithData",
+    values: [AddressLike, BigNumberish, BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
   encodeFunctionData(functionFragment: "txLimits", values?: undefined): string;
   encodeFunctionData(
@@ -385,6 +396,10 @@ export interface FIACoinV6Interface extends Interface {
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "batchTransfer",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
@@ -492,6 +507,10 @@ export interface FIACoinV6Interface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferWithData",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
@@ -763,6 +782,31 @@ export namespace TransferEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace TransferWithDataLiteEvent {
+  export type InputTuple = [
+    from: AddressLike,
+    to: AddressLike,
+    amount: BigNumberish,
+    memoHash: BytesLike
+  ];
+  export type OutputTuple = [
+    from: string,
+    to: string,
+    amount: bigint,
+    memoHash: string
+  ];
+  export interface OutputObject {
+    from: string;
+    to: string;
+    amount: bigint;
+    memoHash: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace UnpausedEvent {
   export type InputTuple = [account: AddressLike];
   export type OutputTuple = [account: string];
@@ -902,6 +946,12 @@ export interface FIACoinV6 extends BaseContract {
   >;
 
   balanceOf: TypedContractMethod<[account: AddressLike], [bigint], "view">;
+
+  batchTransfer: TypedContractMethod<
+    [recipients: AddressLike[], amounts: BigNumberish[]],
+    [boolean],
+    "nonpayable"
+  >;
 
   burn: TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
 
@@ -1080,6 +1130,12 @@ export interface FIACoinV6 extends BaseContract {
     "nonpayable"
   >;
 
+  transferWithData: TypedContractMethod<
+    [to: AddressLike, amount: BigNumberish, data: BytesLike],
+    [boolean],
+    "nonpayable"
+  >;
+
   treasury: TypedContractMethod<[], [string], "view">;
 
   txLimits: TypedContractMethod<
@@ -1193,6 +1249,13 @@ export interface FIACoinV6 extends BaseContract {
   getFunction(
     nameOrSignature: "balanceOf"
   ): TypedContractMethod<[account: AddressLike], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "batchTransfer"
+  ): TypedContractMethod<
+    [recipients: AddressLike[], amounts: BigNumberish[]],
+    [boolean],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "burn"
   ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
@@ -1395,6 +1458,13 @@ export interface FIACoinV6 extends BaseContract {
     nameOrSignature: "transferOwnership"
   ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
   getFunction(
+    nameOrSignature: "transferWithData"
+  ): TypedContractMethod<
+    [to: AddressLike, amount: BigNumberish, data: BytesLike],
+    [boolean],
+    "nonpayable"
+  >;
+  getFunction(
     nameOrSignature: "treasury"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
@@ -1562,6 +1632,13 @@ export interface FIACoinV6 extends BaseContract {
     TransferEvent.InputTuple,
     TransferEvent.OutputTuple,
     TransferEvent.OutputObject
+  >;
+  getEvent(
+    key: "TransferWithDataLite"
+  ): TypedContractEvent<
+    TransferWithDataLiteEvent.InputTuple,
+    TransferWithDataLiteEvent.OutputTuple,
+    TransferWithDataLiteEvent.OutputObject
   >;
   getEvent(
     key: "Unpaused"
@@ -1749,6 +1826,17 @@ export interface FIACoinV6 extends BaseContract {
       TransferEvent.InputTuple,
       TransferEvent.OutputTuple,
       TransferEvent.OutputObject
+    >;
+
+    "TransferWithDataLite(address,address,uint256,bytes32)": TypedContractEvent<
+      TransferWithDataLiteEvent.InputTuple,
+      TransferWithDataLiteEvent.OutputTuple,
+      TransferWithDataLiteEvent.OutputObject
+    >;
+    TransferWithDataLite: TypedContractEvent<
+      TransferWithDataLiteEvent.InputTuple,
+      TransferWithDataLiteEvent.OutputTuple,
+      TransferWithDataLiteEvent.OutputObject
     >;
 
     "Unpaused(address)": TypedContractEvent<

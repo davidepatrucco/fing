@@ -502,6 +502,12 @@ contract FIACoinV5 is ERC20, Ownable, Pausable, ReentrancyGuard {
      * @param amount Amount to transfer
      * @param data Additional data
      */
+    /**
+     * @notice Transfer with attached data
+     * @param to Recipient address
+     * @param amount Amount to transfer
+     * @param data Additional data (emitted off-chain only)
+     */
     function transferWithData(
         address to,
         uint256 amount,
@@ -509,6 +515,7 @@ contract FIACoinV5 is ERC20, Ownable, Pausable, ReentrancyGuard {
     ) external returns (bool) {
         _transfer(msg.sender, to, amount);
         // Data is logged in transaction but not stored on-chain for gas efficiency
+        data; // silence warning
         return true;
     }
     
@@ -631,7 +638,7 @@ contract FIACoinV5 is ERC20, Ownable, Pausable, ReentrancyGuard {
      * @notice Get top holders (simplified version)
      * @param count Number of top holders to return
      */
-    function getTopHolders(uint256 count) external view returns (address[] memory, uint256[] memory) {
+    function getTopHolders(uint256 count) external pure returns (address[] memory, uint256[] memory) {
         // This is a simplified implementation
         // In practice, you'd maintain a sorted list or use external indexing
         address[] memory holders = new address[](count);
@@ -646,7 +653,7 @@ contract FIACoinV5 is ERC20, Ownable, Pausable, ReentrancyGuard {
      * @notice Get staking leaderboard
      * @param count Number of top stakers to return
      */
-    function getStakingLeaderboard(uint256 count) external view returns (address[] memory, uint256[] memory) {
+    function getStakingLeaderboard(uint256 count) external pure returns (address[] memory, uint256[] memory) {
         // Simplified implementation - would need proper indexing for production
         address[] memory stakers = new address[](count);
         uint256[] memory amounts = new uint256[](count);
@@ -662,7 +669,7 @@ contract FIACoinV5 is ERC20, Ownable, Pausable, ReentrancyGuard {
      * @param protocol Protocol address
      * @param amount Amount to deposit
      */
-    function depositToYieldFarm(address protocol, uint256 amount) external {
+    function depositToYieldFarm(address protocol, uint256 amount) external pure {
         require(protocol != address(0), "Invalid protocol");
         require(amount > 0, "Invalid amount");
         // Implementation would integrate with specific DeFi protocols
@@ -672,7 +679,7 @@ contract FIACoinV5 is ERC20, Ownable, Pausable, ReentrancyGuard {
      * @notice Borrow against stake (placeholder)
      * @param collateralAmount Amount of collateral
      */
-    function borrowAgainstStake(uint256 collateralAmount) external {
+    function borrowAgainstStake(uint256 collateralAmount) external pure {
         require(collateralAmount > 0, "Invalid collateral");
         // Implementation would integrate with lending protocols
     }
@@ -682,10 +689,10 @@ contract FIACoinV5 is ERC20, Ownable, Pausable, ReentrancyGuard {
      * @param amount Amount to borrow
      * @param data Callback data
      */
-    function flashLoan(uint256 amount, bytes memory data) external {
+    function flashLoan(uint256 amount, bytes memory data) external pure {
         require(amount > 0, "Invalid amount");
         // Implementation would provide flash loan functionality
-        data; // Silence warning
+        data; // silence warning
     }
     
     // =============================================================
