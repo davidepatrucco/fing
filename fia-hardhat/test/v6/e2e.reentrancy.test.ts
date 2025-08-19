@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import '@nomicfoundation/hardhat-chai-matchers';
 import hre from 'hardhat';
-import { applyCommonTestSetup } from './helpers/setup';
+import { applyCommonTestSetup } from '../helpers/setup';
 const ethers = (hre as any).ethers;
 
 // Minimal malicious receiver that attempts reentrancy by calling stake during a transfer fallback
@@ -39,16 +39,19 @@ describe('E2E: Reentrancy tests', function () {
   const V6 = await ethers.getContractFactory('FIACoinV6');
   const fia = await V6.deploy(treasury.address, founder.address, safe.address);
     await fia.waitForDeployment();
-    await applyCommonTestSetup(fia, deployer);
+  await applyCommonTestSetup(fia, deployer);
+
+  // Fund attacker from treasury so transfers succeed
+  await (fia.connect(treasury)).transfer(attacker.address, ethers.parseUnits('1000', 18));
 
   // deploy malicious receiver contract from compiled contracts
   const Factory = await ethers.getContractFactory('ReentrantReceiver');
   const receiver = await Factory.deploy(await fia.getAddress());
   await receiver.waitForDeployment();
-
-    // transfer some tokens to attacker then transfer to receiver to trigger fallback
-    await fia.transfer(attacker.address, ethers.parseUnits('1000', 18));
-    const a = fia.connect(attacker);
+  // fund receiver and attacker from treasury so stake calls within fallback have balance
+  await (fia.connect(treasury)).transfer(await receiver.getAddress(), ethers.parseUnits('1000', 18));
+  await (fia.connect(treasury)).transfer(attacker.address, ethers.parseUnits('1000', 18));
+  const a = fia.connect(attacker);
 
     try {
       await a.transfer(await receiver.getAddress(), ethers.parseUnits('1', 18));

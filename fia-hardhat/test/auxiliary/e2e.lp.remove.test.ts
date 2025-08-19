@@ -5,11 +5,11 @@ const ethers = (hre as any).ethers;
 describe('E2E: MockDEX LP remove liquidity', function () {
   it('remove liquidity returns proportional tokens and reduces LP balance', async function () {
     const [deployer, user] = await (hre as any).ethers.getSigners();
-    const FIACoinV5 = await ethers.getContractFactory('FIACoinV5');
+  const FIACoinV6 = await ethers.getContractFactory('FIACoinV6');
     const MockToken = await ethers.getContractFactory('MockToken');
     const MockDEX = await ethers.getContractFactory('MockDEX');
 
-    const fia = await FIACoinV5.deploy(deployer.address, deployer.address);
+  const fia = await FIACoinV6.deploy(deployer.address, deployer.address, deployer.address);
     await fia.waitForDeployment();
 
     const token = await MockToken.deploy('Mock', 'MCK', ethers.parseUnits('1000000', 18));
@@ -18,9 +18,9 @@ describe('E2E: MockDEX LP remove liquidity', function () {
     const dex = await MockDEX.deploy();
     await dex.waitForDeployment();
 
-    // fund user
-    await fia.transfer(user.address, ethers.parseUnits('1000', 18));
-    await token.transfer(user.address, ethers.parseUnits('1000', 18));
+  // fund user (treasury holds initial supply)
+  await fia.connect(deployer).transfer(user.address, ethers.parseUnits('1000', 18));
+  await token.transfer(user.address, ethers.parseUnits('1000', 18));
 
     await fia.connect(user).approve(await dex.getAddress(), ethers.parseUnits('1000', 18));
     await token.connect(user).approve(await dex.getAddress(), ethers.parseUnits('1000', 18));

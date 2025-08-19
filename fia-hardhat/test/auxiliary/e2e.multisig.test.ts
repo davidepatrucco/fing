@@ -5,10 +5,10 @@ const ethers = (hre as any).ethers;
 describe('E2E: SimpleMultiSig admin flows', function () {
   it('transfer ownership to multisig and execute owner-only call via multisig', async function () {
     const [deployer, alice, bob, target] = await (hre as any).ethers.getSigners();
-    const FIACoinV5 = await ethers.getContractFactory('FIACoinV5');
+  const FIACoinV6 = await ethers.getContractFactory('FIACoinV6');
     const SimpleMultiSig = await ethers.getContractFactory('SimpleMultiSig');
 
-    const fia = await FIACoinV5.deploy(deployer.address, deployer.address);
+  const fia = await FIACoinV6.deploy(deployer.address, deployer.address, deployer.address);
     await fia.waitForDeployment();
 
     const owners = [deployer.address, alice.address, bob.address];

@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 import hre from 'hardhat';
-import { applyCommonTestSetup } from './helpers/setup';
+import { applyCommonTestSetup } from '../helpers/setup';
 const ethers = (hre as any).ethers;
 
 describe('E2E: LP edge cases', function () {
   it('removing full liquidity returns all underlying and sets reserves to zero', async function () {
     const [deployer, user] = await (hre as any).ethers.getSigners();
-    const FIACoinV5 = await ethers.getContractFactory('FIACoinV5');
+  const FIACoinV6 = await ethers.getContractFactory('FIACoinV6');
     const MockToken = await ethers.getContractFactory('MockToken');
     const MockDEX = await ethers.getContractFactory('MockDEX');
 
-    const fia = await FIACoinV5.deploy(deployer.address, deployer.address);
+  const fia = await FIACoinV6.deploy(deployer.address, deployer.address, deployer.address);
     await fia.waitForDeployment();
 
     const token = await MockToken.deploy('Mock', 'MCK', ethers.parseUnits('1000000', 18));
@@ -59,11 +59,11 @@ describe('E2E: LP edge cases', function () {
 
   it('removing very small LP amount handles rounding (zero-out) gracefully', async function () {
     const [deployer, user] = await (hre as any).ethers.getSigners();
-    const FIACoinV5 = await ethers.getContractFactory('FIACoinV5');
+  const FIACoinV6 = await ethers.getContractFactory('FIACoinV6');
     const MockToken = await ethers.getContractFactory('MockToken');
     const MockDEX = await ethers.getContractFactory('MockDEX');
 
-    const fia = await FIACoinV5.deploy(deployer.address, deployer.address);
+  const fia = await FIACoinV6.deploy(deployer.address, deployer.address, deployer.address);
     await fia.waitForDeployment();
 
     const token = await MockToken.deploy('Mock', 'MCK', ethers.parseUnits('1000000', 18));
@@ -110,11 +110,11 @@ describe('E2E: LP edge cases', function () {
 
   it('LP price changes between add/remove reflect in redemption amounts', async function () {
     const [deployer, user1, user2] = await (hre as any).ethers.getSigners();
-    const FIACoinV5 = await ethers.getContractFactory('FIACoinV5');
+  const FIACoinV6 = await ethers.getContractFactory('FIACoinV6');
     const MockToken = await ethers.getContractFactory('MockToken');
     const MockDEX = await ethers.getContractFactory('MockDEX');
 
-    const fia = await FIACoinV5.deploy(deployer.address, deployer.address);
+  const fia = await FIACoinV6.deploy(deployer.address, deployer.address, deployer.address);
     await fia.waitForDeployment();
 
     const token = await MockToken.deploy('Mock', 'MCK', ethers.parseUnits('1000000', 18));

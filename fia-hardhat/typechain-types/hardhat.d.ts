@@ -102,14 +102,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ReentrancyGuard__factory>;
     getContractFactory(
-      name: "FIACoinMigration",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FIACoinMigration__factory>;
-    getContractFactory(
-      name: "IFIACoinV7",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IFIACoinV7__factory>;
-    getContractFactory(
       name: "FIACoinV6",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FIACoinV6__factory>;
@@ -121,6 +113,14 @@ declare module "hardhat/types/runtime" {
       name: "FIACoinV7Upgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FIACoinV7Upgradeable__factory>;
+    getContractFactory(
+      name: "MockSafe",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MockSafe__factory>;
+    getContractFactory(
+      name: "SimpleMultiSig",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SimpleMultiSig__factory>;
     getContractFactory(
       name: "IUniswapV3Factory",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -134,13 +134,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IWETH9__factory>;
     getContractFactory(
-      name: "IERC20",
+      name: "FailingTarget",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC20__factory>;
-    getContractFactory(
-      name: "LPTimelock",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.LPTimelock__factory>;
+    ): Promise<Contracts.FailingTarget__factory>;
     getContractFactory(
       name: "MockDEX",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -150,21 +146,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MockLP__factory>;
     getContractFactory(
-      name: "MockSafe",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MockSafe__factory>;
-    getContractFactory(
       name: "MockToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MockToken__factory>;
-    getContractFactory(
-      name: "IERC721",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721__factory>;
-    getContractFactory(
-      name: "NFTTimelock",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.NFTTimelock__factory>;
     getContractFactory(
       name: "IFIACoin",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -173,10 +157,6 @@ declare module "hardhat/types/runtime" {
       name: "ReentrantReceiver",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ReentrantReceiver__factory>;
-    getContractFactory(
-      name: "SimpleMultiSig",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SimpleMultiSig__factory>;
     getContractFactory(
       name: "IFIACoin",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -193,6 +173,30 @@ declare module "hardhat/types/runtime" {
       name: "TestProtectedCaller",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TestProtectedCaller__factory>;
+    getContractFactory(
+      name: "FIACoinMigration",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FIACoinMigration__factory>;
+    getContractFactory(
+      name: "IFIACoinV7",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IFIACoinV7__factory>;
+    getContractFactory(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(
+      name: "LPTimelock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LPTimelock__factory>;
+    getContractFactory(
+      name: "IERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721__factory>;
+    getContractFactory(
+      name: "NFTTimelock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.NFTTimelock__factory>;
 
     getContractAt(
       name: "OwnableUpgradeable",
@@ -305,16 +309,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ReentrancyGuard>;
     getContractAt(
-      name: "FIACoinMigration",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.FIACoinMigration>;
-    getContractAt(
-      name: "IFIACoinV7",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IFIACoinV7>;
-    getContractAt(
       name: "FIACoinV6",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -329,6 +323,16 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.FIACoinV7Upgradeable>;
+    getContractAt(
+      name: "MockSafe",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MockSafe>;
+    getContractAt(
+      name: "SimpleMultiSig",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SimpleMultiSig>;
     getContractAt(
       name: "IUniswapV3Factory",
       address: string | ethers.Addressable,
@@ -345,15 +349,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IWETH9>;
     getContractAt(
-      name: "IERC20",
+      name: "FailingTarget",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
-    ): Promise<Contracts.IERC20>;
-    getContractAt(
-      name: "LPTimelock",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.LPTimelock>;
+    ): Promise<Contracts.FailingTarget>;
     getContractAt(
       name: "MockDEX",
       address: string | ethers.Addressable,
@@ -365,25 +364,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.MockLP>;
     getContractAt(
-      name: "MockSafe",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MockSafe>;
-    getContractAt(
       name: "MockToken",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.MockToken>;
-    getContractAt(
-      name: "IERC721",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC721>;
-    getContractAt(
-      name: "NFTTimelock",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.NFTTimelock>;
     getContractAt(
       name: "IFIACoin",
       address: string | ethers.Addressable,
@@ -394,11 +378,6 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ReentrantReceiver>;
-    getContractAt(
-      name: "SimpleMultiSig",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SimpleMultiSig>;
     getContractAt(
       name: "IFIACoin",
       address: string | ethers.Addressable,
@@ -419,6 +398,36 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.TestProtectedCaller>;
+    getContractAt(
+      name: "FIACoinMigration",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FIACoinMigration>;
+    getContractAt(
+      name: "IFIACoinV7",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IFIACoinV7>;
+    getContractAt(
+      name: "IERC20",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20>;
+    getContractAt(
+      name: "LPTimelock",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LPTimelock>;
+    getContractAt(
+      name: "IERC721",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721>;
+    getContractAt(
+      name: "NFTTimelock",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NFTTimelock>;
 
     deployContract(
       name: "OwnableUpgradeable",
@@ -509,14 +518,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuard>;
     deployContract(
-      name: "FIACoinMigration",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoinMigration>;
-    deployContract(
-      name: "IFIACoinV7",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IFIACoinV7>;
-    deployContract(
       name: "FIACoinV6",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FIACoinV6>;
@@ -528,6 +529,14 @@ declare module "hardhat/types/runtime" {
       name: "FIACoinV7Upgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FIACoinV7Upgradeable>;
+    deployContract(
+      name: "MockSafe",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MockSafe>;
+    deployContract(
+      name: "SimpleMultiSig",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SimpleMultiSig>;
     deployContract(
       name: "IUniswapV3Factory",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -541,13 +550,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IWETH9>;
     deployContract(
-      name: "IERC20",
+      name: "FailingTarget",
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC20>;
-    deployContract(
-      name: "LPTimelock",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.LPTimelock>;
+    ): Promise<Contracts.FailingTarget>;
     deployContract(
       name: "MockDEX",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -557,21 +562,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockLP>;
     deployContract(
-      name: "MockSafe",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.MockSafe>;
-    deployContract(
       name: "MockToken",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockToken>;
-    deployContract(
-      name: "IERC721",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC721>;
-    deployContract(
-      name: "NFTTimelock",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.NFTTimelock>;
     deployContract(
       name: "IFIACoin",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -580,10 +573,6 @@ declare module "hardhat/types/runtime" {
       name: "ReentrantReceiver",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrantReceiver>;
-    deployContract(
-      name: "SimpleMultiSig",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.SimpleMultiSig>;
     deployContract(
       name: "IFIACoin",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -600,6 +589,30 @@ declare module "hardhat/types/runtime" {
       name: "TestProtectedCaller",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.TestProtectedCaller>;
+    deployContract(
+      name: "FIACoinMigration",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FIACoinMigration>;
+    deployContract(
+      name: "IFIACoinV7",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IFIACoinV7>;
+    deployContract(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC20>;
+    deployContract(
+      name: "LPTimelock",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LPTimelock>;
+    deployContract(
+      name: "IERC721",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721>;
+    deployContract(
+      name: "NFTTimelock",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.NFTTimelock>;
 
     deployContract(
       name: "OwnableUpgradeable",
@@ -712,16 +725,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuard>;
     deployContract(
-      name: "FIACoinMigration",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoinMigration>;
-    deployContract(
-      name: "IFIACoinV7",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IFIACoinV7>;
-    deployContract(
       name: "FIACoinV6",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -736,6 +739,16 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FIACoinV7Upgradeable>;
+    deployContract(
+      name: "MockSafe",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MockSafe>;
+    deployContract(
+      name: "SimpleMultiSig",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SimpleMultiSig>;
     deployContract(
       name: "IUniswapV3Factory",
       args: any[],
@@ -752,15 +765,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IWETH9>;
     deployContract(
-      name: "IERC20",
+      name: "FailingTarget",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC20>;
-    deployContract(
-      name: "LPTimelock",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.LPTimelock>;
+    ): Promise<Contracts.FailingTarget>;
     deployContract(
       name: "MockDEX",
       args: any[],
@@ -772,25 +780,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockLP>;
     deployContract(
-      name: "MockSafe",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.MockSafe>;
-    deployContract(
       name: "MockToken",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockToken>;
-    deployContract(
-      name: "IERC721",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC721>;
-    deployContract(
-      name: "NFTTimelock",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.NFTTimelock>;
     deployContract(
       name: "IFIACoin",
       args: any[],
@@ -801,11 +794,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrantReceiver>;
-    deployContract(
-      name: "SimpleMultiSig",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.SimpleMultiSig>;
     deployContract(
       name: "IFIACoin",
       args: any[],
@@ -826,6 +814,36 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.TestProtectedCaller>;
+    deployContract(
+      name: "FIACoinMigration",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FIACoinMigration>;
+    deployContract(
+      name: "IFIACoinV7",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IFIACoinV7>;
+    deployContract(
+      name: "IERC20",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC20>;
+    deployContract(
+      name: "LPTimelock",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LPTimelock>;
+    deployContract(
+      name: "IERC721",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721>;
+    deployContract(
+      name: "NFTTimelock",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.NFTTimelock>;
 
     // default types
     getContractFactory(

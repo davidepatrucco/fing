@@ -111,41 +111,44 @@ fing/
    - Create a new wallet or import existing
    - Add Base Sepolia network (see network configuration below)
 
-## Quick Start
+## Quick Start (updated)
 
-### 1. Clone Repository
+This repository contains two main workspaces:
+
+- `fia-hardhat/` — Hardhat project with contracts, scripts and tests (active development for V6).
+- `web/` — Next.js web application (separate package).
+
+Minimal local setup:
 
 ```bash
+# Clone
 git clone https://github.com/davidepatrucco/fing.git
 cd fing
-```
 
-### 2. Setup Smart Contracts
-
-```bash
+# Hardhat workspace
 cd fia-hardhat
-cp .env.example .env
-# Edit .env with your configuration (see environment setup below)
-npm install
+# create .env from example or use setup script
+cp .env.example .env || true
+./setup-env.sh local || true
+npm ci
 npm run compile
-```
 
-### 3. Setup Web Application
+# Run tests for V6
+npm run test
 
-```bash
+# Web app (separate)
 cd ../web
-cp .env.example .env
-# Edit .env with your configuration
-npm install
+cp .env.example .env || true
+npm ci
 npm run dev
 ```
 
-### 4. Access Application
+Notes
+- Use `./setup-env.sh <local|staging|production>` inside `fia-hardhat` to link an env file.
+- Active tests live under `fia-hardhat/test/v6/`.
+- To run coverage for V6 tests: from `fia-hardhat/` run `npm run coverage`.
 
-- Web App: http://localhost:3000
-- API Endpoints: http://localhost:3000/api/*
-
-## Smart Contract Development
+## Smart Contract Development (summary)
 
 ### Environment Setup
 
