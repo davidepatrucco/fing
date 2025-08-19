@@ -12,8 +12,8 @@ interface ProtectedTransferProps {
 }
 
 export default function ProtectedTransfer({ isOpen, onClose, onSuccess }: ProtectedTransferProps) {
-  const { isConnected, getSigner, address } = useWallet();
-  const { getFiaContract } = useContracts();
+  const { isConnected, address } = useWallet();
+  const { fiaContract } = useContracts();
   
   const [form, setForm] = useState({
     recipient: '',
@@ -30,28 +30,21 @@ export default function ProtectedTransfer({ isOpen, onClose, onSuccess }: Protec
   const [confirmed, setConfirmed] = useState(false);
 
   const fetchData = async () => {
-    if (!isConnected || !address) return;
+    if (!isConnected || !address || !fiaContract) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) return;
-      
-      const contract = getFiaContract(signer);
-      const provider = signer.provider;
-      
-      const [userBalance, userLastTxBlock, userLastTxTime, currentBlock] = await Promise.all([
-        contract.balanceOf(address),
-        contract.lastTxBlock(address),
-        contract.lastTxTime(address),
-        provider?.getBlockNumber() || Promise.resolve(0)
+      const [userBalance, userLastTxBlock, userLastTxTime] = await Promise.all([
+        fiaContract.balanceOf(address),
+        fiaContract.lastTxBlock(address),
+        fiaContract.lastTxTime(address)
       ]);
 
       setBalance(ethers.formatUnits(userBalance, 18));
       setLastTxBlock(Number(userLastTxBlock));
       setLastTxTime(Number(userLastTxTime));
 
-      // Generate suggested nonce based on current block and time
-      const nonce = Math.floor(Math.random() * 1000000) + (currentBlock || 0);
+      // Generate suggested nonce based on current time and block
+      const nonce = Math.floor(Math.random() * 1000000) + Math.floor(Date.now() / 1000);
       setSuggestedNonce(nonce.toString());
       setForm(prev => ({ ...prev, nonce: nonce.toString() }));
 
@@ -73,15 +66,12 @@ export default function ProtectedTransfer({ isOpen, onClose, onSuccess }: Protec
       setLoading(true);
       setError(null);
       
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
-      
-      const contract = getFiaContract(signer);
+      if (!fiaContract) throw new Error('Contract not available');
       
       const amountWei = ethers.parseUnits(form.amount, 18);
       const nonce = parseInt(form.nonce);
 
-      const tx = await contract.protectedTransfer(form.recipient, amountWei, nonce);
+      const tx = await fiaContract.protectedTransfer(form.recipient, amountWei, nonce);
       await tx.wait();
       
       // Reset form and close

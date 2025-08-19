@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useWallet } from '../../src/hooks/useWallet';
-import { useContracts } from '../../src/hooks/useContracts';
+import { useContracts, useGovernance } from '../../src/hooks/useContracts';
 import { ethers } from 'ethers';
 
 interface Proposal {
@@ -20,7 +20,8 @@ interface Proposal {
 
 export default function GovernancePage() {
   const { isConnected, connectWallet, getSigner, address } = useWallet();
-  const { getFiaContract } = useContracts();
+  const { fiaContract } = useContracts();
+  const { createProposal, vote, executeProposal } = useGovernance();
   
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [votingPower, setVotingPower] = useState<string>('0');
@@ -37,27 +38,23 @@ export default function GovernancePage() {
   });
 
   const fetchGovernanceData = async () => {
-    if (!isConnected) return;
+    if (!isConnected || !fiaContract) return;
 
     try {
       setLoading(true);
       setError(null);
       
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
-      
-      const contract = getFiaContract(signer);
-      
       // Fetch proposal count and threshold
       const [proposalCount, threshold] = await Promise.all([
-        contract.proposalCount(),
-        contract.PROPOSAL_THRESHOLD()
+        fiaContract.proposalCount(),
+        fiaContract.PROPOSAL_THRESHOLD()
       ]);
 
       // Fetch voting power if user is connected
       let userVotingPower = '0';
       if (address) {
-        userVotingPower = await contract.getVotingPower(address);
+        const votingPower = await fiaContract.getVotingPower(address);
+        userVotingPower = ethers.formatUnits(votingPower, 18);
       }
 
       // Fetch recent proposals (last 10)
@@ -65,7 +62,7 @@ export default function GovernancePage() {
       const startIndex = Math.max(0, Number(proposalCount) - 10);
       
       for (let i = startIndex; i < Number(proposalCount); i++) {
-        proposalPromises.push(contract.proposals(i));
+        proposalPromises.push(fiaContract.proposals(i));
       }
 
       const proposalResults = await Promise.all(proposalPromises);
@@ -75,16 +72,16 @@ export default function GovernancePage() {
         proposer: proposal.proposer,
         description: proposal.description,
         startTime: Number(proposal.startTime),
-        endTime: Number(proposal.endTime),
+        endTime: Number(proposal.startTime) + 7 * 24 * 60 * 60, // 7 days voting period
         forVotes: ethers.formatUnits(proposal.forVotes, 18),
         againstVotes: ethers.formatUnits(proposal.againstVotes, 18),
         executed: proposal.executed,
-        proposalType: proposal.proposalType,
+        proposalType: Number(proposal.proposalType),
         proposalData: proposal.proposalData
       })).reverse(); // Show newest first
 
       setProposals(formattedProposals);
-      setVotingPower(ethers.formatUnits(userVotingPower, 18));
+      setVotingPower(userVotingPower);
       setProposalThreshold(ethers.formatUnits(threshold, 18));
 
     } catch (err) {
@@ -99,10 +96,7 @@ export default function GovernancePage() {
     if (!isConnected || !newProposal.description.trim()) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
-      
-      const contract = getFiaContract(signer);
+      setLoading(true);
       
       // Encode proposal data based on type
       let encodedData = '0x';
@@ -111,22 +105,26 @@ export default function GovernancePage() {
         encodedData = ethers.hexlify(ethers.toUtf8Bytes(newProposal.proposalData));
       }
 
-      const tx = await contract.createProposal(
-        newProposal.description,
+      const tx = await createProposal(
         newProposal.proposalType,
+        newProposal.description,
         encodedData
       );
 
-      await tx.wait();
-      
-      // Refresh data and close form
-      await fetchGovernanceData();
-      setShowCreateForm(false);
-      setNewProposal({ description: '', proposalType: 0, proposalData: '' });
+      if (tx) {
+        await tx.wait();
+        
+        // Refresh data and close form
+        await fetchGovernanceData();
+        setShowCreateForm(false);
+        setNewProposal({ description: '', proposalType: 0, proposalData: '' });
+      }
       
     } catch (err) {
       console.error('Error creating proposal:', err);
       setError(err instanceof Error ? err.message : 'Failed to create proposal');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -134,20 +132,22 @@ export default function GovernancePage() {
     if (!isConnected) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
+      setLoading(true);
       
-      const contract = getFiaContract(signer);
+      const tx = await vote(proposalId, support);
       
-      const tx = await contract.vote(proposalId, support);
-      await tx.wait();
-      
-      // Refresh data
-      await fetchGovernanceData();
+      if (tx) {
+        await tx.wait();
+        
+        // Refresh data
+        await fetchGovernanceData();
+      }
       
     } catch (err) {
       console.error('Error voting:', err);
       setError(err instanceof Error ? err.message : 'Failed to vote');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -155,20 +155,22 @@ export default function GovernancePage() {
     if (!isConnected) return;
 
     try {
-      const signer = getSigner();
-      if (!signer) throw new Error('No signer available');
+      setLoading(true);
       
-      const contract = getFiaContract(signer);
+      const tx = await executeProposal(proposalId);
       
-      const tx = await contract.executeProposal(proposalId);
-      await tx.wait();
-      
-      // Refresh data
-      await fetchGovernanceData();
+      if (tx) {
+        await tx.wait();
+        
+        // Refresh data
+        await fetchGovernanceData();
+      }
       
     } catch (err) {
       console.error('Error executing proposal:', err);
       setError(err instanceof Error ? err.message : 'Failed to execute proposal');
+    } finally {
+      setLoading(false);
     }
   };
 
