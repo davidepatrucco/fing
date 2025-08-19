@@ -4,12 +4,12 @@ const ethers = (hre as any).ethers;
 
 describe('E2E: MockDEX / LP flows', function () {
   it('add liquidity and swap via MockDEX', async function () {
-    const [deployer, user] = await (hre as any).ethers.getSigners();
-    const FIACoinV5 = await ethers.getContractFactory('FIACoinV5');
+  const [deployer, user, treasury, founder, , safe] = await (hre as any).ethers.getSigners();
+  const V6 = await ethers.getContractFactory('FIACoinV6');
     const MockToken = await ethers.getContractFactory('MockToken');
     const MockDEX = await ethers.getContractFactory('MockDEX');
 
-    const fia = await FIACoinV5.deploy(deployer.address, deployer.address);
+  const fia = await V6.deploy(treasury.address, founder.address, safe.address);
     await fia.waitForDeployment();
 
     const token = await MockToken.deploy('Mock', 'MCK', ethers.parseUnits('1000000', 18));

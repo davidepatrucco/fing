@@ -9,7 +9,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -26,6 +26,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -48,7 +51,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -65,6 +68,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -86,7 +92,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -103,6 +109,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -127,7 +136,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -144,6 +153,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -163,7 +175,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -180,6 +192,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -201,7 +216,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -218,6 +233,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -237,7 +255,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -254,6 +272,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -268,14 +289,14 @@
       ]
     },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/MockDEX.sol": {
-      "lastModificationDate": 1755617347884,
+      "lastModificationDate": 1755618208785,
       "contentHash": "367e5c5170eea7fe631997d6da404b4d",
       "sourceName": "contracts/MockDEX.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -292,6 +313,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -315,7 +339,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -332,6 +356,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -346,14 +373,14 @@
       ]
     },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV6.sol": {
-      "lastModificationDate": 1755617341613,
+      "lastModificationDate": 1755618208784,
       "contentHash": "3cf2043ae3b1bd150457e0d911406d16",
       "sourceName": "contracts/FIACoinV6.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -370,6 +397,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -394,7 +424,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -411,6 +441,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -423,14 +456,14 @@
       ]
     },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV5.sol": {
-      "lastModificationDate": 1755617403996,
+      "lastModificationDate": 1755618208783,
       "contentHash": "7b4581cc1562b147c56e7f53e1f57ef2",
       "sourceName": "contracts/FIACoinV5.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -447,6 +480,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -464,14 +500,14 @@
       ]
     },
     "/Users/davide.patrucco/Desktop/Personal/finger/fia-hardhat/contracts/FIACoinV4.sol": {
-      "lastModificationDate": 1755617392600,
+      "lastModificationDate": 1755618208782,
       "contentHash": "dd201887868db92930355d90d82db144",
       "sourceName": "contracts/FIACoinV4.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -488,6 +524,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -511,7 +550,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -528,6 +567,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -550,7 +592,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -567,6 +609,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -588,7 +633,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -605,6 +650,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -624,7 +672,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -641,6 +689,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -661,7 +712,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -678,6 +729,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -697,7 +751,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -714,6 +768,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -734,7 +791,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -751,6 +808,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -771,7 +831,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -788,6 +848,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -807,7 +870,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -824,6 +887,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -844,7 +910,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -861,6 +927,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -881,7 +950,7 @@
         "version": "0.8.20",
         "settings": {
           "optimizer": {
-            "enabled": true,
+            "enabled": false,
             "runs": 200
           },
           "evmVersion": "paris",
@@ -898,6 +967,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },

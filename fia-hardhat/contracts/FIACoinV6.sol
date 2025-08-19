@@ -462,6 +462,61 @@ contract FIACoinV6 is ERC20, Ownable, Pausable, ReentrancyGuard {
     }
 
     // =============================================================
+    //                        STAKING FUNCTIONS
+    // =============================================================
+
+    function stake(uint256 amount, uint256 lockPeriod, bool autoCompound) external whenNotPaused {
+        require(amount > 0, "Amount must be greater than 0");
+        require(
+            lockPeriod == LOCK_30_DAYS || 
+            lockPeriod == LOCK_90_DAYS || 
+            lockPeriod == LOCK_180_DAYS || 
+            lockPeriod == LOCK_365_DAYS,
+            "Invalid lock period"
+        );
+        require(balanceOf(msg.sender) >= amount, "Insufficient balance");
+
+        _transfer(msg.sender, address(this), amount);
+        
+        userStakes[msg.sender].push(StakeInfo({
+            amount: amount,
+            stakingTime: block.timestamp,
+            lastRewardClaim: block.timestamp,
+            lockPeriod: lockPeriod,
+            autoCompound: autoCompound
+        }));
+
+        totalStaked += amount;
+        emit Staked(msg.sender, amount, lockPeriod, userStakes[msg.sender].length - 1);
+    }
+
+    function unstake(uint256 stakeIndex) external whenNotPaused {
+        require(stakeIndex < userStakes[msg.sender].length, "Invalid stake index");
+        StakeInfo storage stakeInfo = userStakes[msg.sender][stakeIndex];
+        require(stakeInfo.amount > 0, "No active stake");
+        require(block.timestamp >= stakeInfo.stakingTime + stakeInfo.lockPeriod, "Lock period not finished");
+
+        uint256 amount = stakeInfo.amount;
+        stakeInfo.amount = 0;
+        totalStaked -= amount;
+
+        _transfer(address(this), msg.sender, amount);
+        emit Unstaked(msg.sender, amount, stakeIndex);
+    }
+
+    function claimRewards(uint256 stakeIndex) external whenNotPaused {
+        _claimStakingRewards(stakeIndex);
+    }
+
+    function getStakeCount(address user) external view returns (uint256) {
+        return userStakes[user].length;
+    }
+
+    function calculateRewards(address user, uint256 stakeIndex) external view returns (uint256) {
+        return _calculateRewards(user, stakeIndex);
+    }
+
+    // =============================================================
     //                       INTERNAL FUNCTIONS
     // =============================================================
     

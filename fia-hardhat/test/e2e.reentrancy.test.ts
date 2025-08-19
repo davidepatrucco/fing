@@ -35,9 +35,9 @@ contract ReentrantReceiver {
 
 describe('E2E: Reentrancy tests', function () {
   it('transfer -> malicious fallback should be blocked by ReentrancyGuard', async function () {
-    const [deployer, attacker, treasury, founder] = await (hre as any).ethers.getSigners();
-    const FIACoinV5 = await ethers.getContractFactory('FIACoinV5');
-    const fia = await FIACoinV5.deploy(treasury.address, founder.address);
+  const [deployer, attacker, treasury, founder, , safe] = await (hre as any).ethers.getSigners();
+  const V6 = await ethers.getContractFactory('FIACoinV6');
+  const fia = await V6.deploy(treasury.address, founder.address, safe.address);
     await fia.waitForDeployment();
     await applyCommonTestSetup(fia, deployer);
 

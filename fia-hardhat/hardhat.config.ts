@@ -2,6 +2,7 @@ import "dotenv/config";
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-verify";
+import "solidity-coverage";
 
 const ALCHEMY = process.env.RPC_BASE_SEPOLIA || "https://sepolia.base.org";
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
