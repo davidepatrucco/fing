@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Cache Hardhat Artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            fia-hardhat/node_modules
+            fia-hardhat/cache
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies (root)
+        run: |
+          cd fia-hardhat
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd fia-hardhat
+          npx hardhat test --network hardhat
