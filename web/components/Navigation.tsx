@@ -8,9 +8,19 @@ const navigation = [
   { name: 'Token', href: '/token' },
   { name: 'Leaderboard', href: '/leaderboard' },
   { name: 'Monitor', href: '/monitor' },
+  { name: 'Governance', href: '/governance' },
+  { name: 'Staking', href: '/staking' },
+  { name: 'Multisig', href: '/multisig' },
   { name: 'Tools', href: '/tools' },
   { name: 'Docs', href: '/docs' },
 ];
+
+// Dev-only navigation items
+const devNavigation = [
+  { name: 'MockDEX', href: '/dev/mockdex' },
+];
+
+const isDevToolsEnabled = process.env.NEXT_PUBLIC_ENABLE_DEV_TOOLS === 'true';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +42,16 @@ export default function Navigation() {
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     {item.name}
+                  </Link>
+                ))}
+                {isDevToolsEnabled && devNavigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-yellow-300 hover:bg-gray-700 hover:text-yellow-200 px-3 py-2 rounded-md text-sm font-medium border border-yellow-500/30"
+                    title="Development Tool"
+                  >
+                    🛠️ {item.name}
                   </Link>
                 ))}
               </div>
@@ -77,6 +97,16 @@ export default function Navigation() {
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
+              </Link>
+            ))}
+            {isDevToolsEnabled && devNavigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-yellow-300 hover:bg-gray-700 hover:text-yellow-200 block px-3 py-2 rounded-md text-base font-medium border border-yellow-500/30"
+                onClick={() => setIsOpen(false)}
+              >
+                🛠️ {item.name}
               </Link>
             ))}
           </div>

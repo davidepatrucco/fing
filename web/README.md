@@ -1,9 +1,10 @@
 # FIA Token Website
 
-A Next.js web application for the FIA (Finger In Ass) token on Base Sepolia. Features token information, real-time event monitoring, leaderboards, and developer tools.
+A comprehensive Next.js web application for the FIACoin ecosystem, supporting both legacy FIA v4 features and new FIACoinV5 advanced DeFi functionality.
 
 ## Features
 
+### Core Features (v4 Compatible)
 - **Home Page**: Token overview with hero section and feature highlights
 - **Token Page**: Contract details, tokenomics, and MetaMask integration
 - **Leaderboard**: Rankings of top fingerers and receivers with CSV export
@@ -11,35 +12,84 @@ A Next.js web application for the FIA (Finger In Ass) token on Base Sepolia. Fea
 - **Tools**: Developer utilities and deployment guides
 - **Docs**: Comprehensive documentation and API reference
 
+### New FIACoinV5 Features 🆕
+- **Governance**: Create and vote on proposals with token-weighted voting
+- **Staking**: Stake tokens with variable lock periods and APY rewards
+- **Protected Transfers**: Anti-MEV transfers with nonce protection
+- **Multisig Treasury**: Multi-signature wallet management for treasury operations
+- **Web3 Integration**: Full MetaMask wallet connection and transaction handling
+
 ## Tech Stack
 
 - **Frontend**: Next.js 15 with TypeScript and Tailwind CSS
 - **Backend**: Next.js API routes
 - **Database**: SQLite for development (configurable for production)
-- **Blockchain**: ethers.js for Web3 interactions
+- **Blockchain**: ethers.js v6 for Web3 interactions
+- **Smart Contracts**: TypeChain for type-safe contract interactions
 - **Deployment**: Vercel-ready configuration
 
 ## Quick Start
 
-1. **Install dependencies**:
+### Prerequisites
+- Node.js 18+ and npm
+- MetaMask or compatible Web3 wallet
+
+### Installation
+
+1. **Clone and install dependencies**
    ```bash
+   git clone https://github.com/davidepatrucco/fing.git
+   cd fing/web
    npm install
    ```
 
-2. **Set up environment variables**:
+2. **Configure environment**
    ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
+   cp .env.example .env.local
+   ```
+   
+   Edit `.env.local` with your configuration:
+   ```env
+   # RPC Configuration
+   NEXT_PUBLIC_RPC_URL=http://localhost:8545
+   RPC_BASE_SEPOLIA=https://sepolia.base.org
+   
+   # Contract Addresses
+   NEXT_PUBLIC_FIA_CONTRACT_ADDRESS=0x...
+   NEXT_PUBLIC_FIA_V5_CONTRACT_ADDRESS=0x...
+   NEXT_PUBLIC_MULTISIG_CONTRACT_ADDRESS=0x...
+   
+   # Feature Flags
+   NEXT_PUBLIC_ENABLE_DEV_TOOLS=false
    ```
 
-3. **Run development server**:
+3. **Start development server**
    ```bash
    npm run dev
    ```
 
-4. **Build for production**:
+### FIACoinV5 Local Development
+
+For full V5 feature testing with local blockchain:
+
+1. **Start Hardhat node**
    ```bash
-   npm run build
+   cd ../fia-hardhat
+   npm install
+   npx hardhat node
+   ```
+
+2. **Deploy V5 contracts** (in another terminal)
+   ```bash
+   npx hardhat run scripts/deploy-v5.ts --network hardhat
+   ```
+
+3. **Start frontend with local config**
+   ```bash
+   cd ../web
+   NEXT_PUBLIC_RPC_URL=http://localhost:8545 \
+   NEXT_PUBLIC_FIA_V5_CONTRACT_ADDRESS=<deployed_address> \
+   npm run dev
    ```
 
 ## Environment Variables

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import ProtectedTransfer from '../../src/components/ProtectedTransfer';
 
 interface ContractInfo {
   address: string;
@@ -18,6 +19,7 @@ export default function TokenPage() {
   const [contractInfo, setContractInfo] = useState<ContractInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showProtectedTransfer, setShowProtectedTransfer] = useState(false);
 
   useEffect(() => {
     fetchContractInfo();
@@ -246,6 +248,12 @@ export default function TokenPage() {
                 >
                   Add to MetaMask
                 </button>
+                <button
+                  onClick={() => setShowProtectedTransfer(true)}
+                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                >
+                  🛡️ Protected Transfer
+                </button>
                 <a
                   href={`https://sepolia.basescan.org/address/${contractInfo.address}`}
                   target="_blank"
@@ -270,6 +278,16 @@ export default function TokenPage() {
             <p className="text-gray-400">Contract not yet deployed</p>
           </div>
         )}
+
+        {/* Protected Transfer Modal */}
+        <ProtectedTransfer
+          isOpen={showProtectedTransfer}
+          onClose={() => setShowProtectedTransfer(false)}
+          onSuccess={() => {
+            // Optionally refresh contract info or show success message
+            console.log('Protected transfer successful');
+          }}
+        />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 
-// FIA Contract ABI - minimal version with Fingered event
+// Legacy FIA Contract ABI - minimal version with Fingered event
 const FIA_ABI = [
   // Standard ERC20 functions
   "function name() view returns (string)",
@@ -42,8 +42,71 @@ export class BlockchainService {
   private contract?: ethers.Contract;
 
   constructor() {
-    const rpcUrl = process.env.RPC_BASE_SEPOLIA || process.env.NEXT_PUBLIC_RPC_BASE_SEPOLIA || 'https://sepolia.base.org';
+    const rpcUrl = process.env.RPC_BASE_SEPOLIA || process.env.NEXT_PUBLIC_RPC_URL || process.env.NEXT_PUBLIC_RPC_BASE_SEPOLIA || 'https://sepolia.base.org';
     this.provider = new ethers.JsonRpcProvider(rpcUrl);
+  }
+
+  // Get basic contract instances for V5 features (using generic ethers.Contract for now)
+  getFiaV5Contract(address: string, signerOrProvider?: ethers.Signer | ethers.Provider): ethers.Contract {
+    // Extended ABI for FIACoinV5 features
+    const FIACOIN_V5_ABI = [
+      ...FIA_ABI,
+      // Governance functions
+      "function proposalCount() view returns (uint256)",
+      "function proposals(uint256) view returns (tuple(address proposer, string description, uint256 startTime, uint256 endTime, uint256 forVotes, uint256 againstVotes, bool executed, uint8 proposalType, bytes proposalData))",
+      "function getVotingPower(address account) view returns (uint256)",
+      "function createProposal(string description, uint8 proposalType, bytes proposalData)",
+      "function vote(uint256 proposalId, bool support)",
+      "function executeProposal(uint256 proposalId)",
+      "function PROPOSAL_THRESHOLD() view returns (uint256)",
+      
+      // Staking functions
+      "function stake(uint256 amount, uint256 lockPeriod, bool autoCompound)",
+      "function unstake(uint256 index)",
+      "function claimStakingRewards()",
+      "function getStakingRewards(address account) view returns (uint256)",
+      "function getStakingLeaderboard() view returns (address[] memory addresses, uint256[] memory amounts)",
+      
+      // Protected transfer functions
+      "function protectedTransfer(address to, uint256 amount, uint256 nonce)",
+      "function lastTxBlock(address account) view returns (uint256)",
+      "function lastTxTime(address account) view returns (uint256)",
+      
+      // Events
+      "event ProposalCreated(uint256 indexed proposalId, address indexed proposer, string description)",
+      "event VoteCast(uint256 indexed proposalId, address indexed voter, bool support, uint256 weight)",
+      "event ProposalExecuted(uint256 indexed proposalId)",
+      "event Staked(address indexed user, uint256 amount, uint256 lockPeriod)",
+      "event Unstaked(address indexed user, uint256 amount)",
+      "event RewardClaimed(address indexed user, uint256 amount)"
+    ];
+    
+    return new ethers.Contract(address, FIACOIN_V5_ABI, signerOrProvider || this.provider);
+  }
+
+  getMultisigContract(address: string, signerOrProvider?: ethers.Signer | ethers.Provider): ethers.Contract {
+    const MULTISIG_ABI = [
+      "function submitTransaction(address destination, uint256 value, bytes data) returns (uint256)",
+      "function confirmTransaction(uint256 transactionId)",
+      "function executeTransaction(uint256 transactionId)",
+      "function getTransactionCount() view returns (uint256)",
+      "function transactions(uint256) view returns (tuple(address destination, uint256 value, bytes data, bool executed))",
+      "function confirmations(uint256, address) view returns (bool)",
+      "function getConfirmationCount(uint256) view returns (uint256)",
+      "function required() view returns (uint256)",
+      "function owners(uint256) view returns (address)",
+      "function isOwner(address) view returns (bool)",
+      "event Submission(uint256 indexed transactionId)",
+      "event Confirmation(address indexed sender, uint256 indexed transactionId)",
+      "event Execution(uint256 indexed transactionId)",
+      "event ExecutionFailure(uint256 indexed transactionId)"
+    ];
+    
+    return new ethers.Contract(address, MULTISIG_ABI, signerOrProvider || this.provider);
+  }
+
+  getProvider(): ethers.JsonRpcProvider {
+    return this.provider;
   }
 
   async getContractInfo(contractAddress: string): Promise<ContractInfo> {
