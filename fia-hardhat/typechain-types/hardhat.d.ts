@@ -50,26 +50,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ReentrancyGuard__factory>;
     getContractFactory(
-      name: "FailingTarget",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FailingTarget__factory>;
-    getContractFactory(
-      name: "FIACoin",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FIACoin__factory>;
-    getContractFactory(
-      name: "FIACoin",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FIACoin__factory>;
-    getContractFactory(
-      name: "FIACoinV4",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FIACoinV4__factory>;
-    getContractFactory(
-      name: "FIACoinV5",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FIACoinV5__factory>;
-    getContractFactory(
       name: "FIACoinV6",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FIACoinV6__factory>;
@@ -192,31 +172,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ReentrancyGuard>;
     getContractAt(
-      name: "FailingTarget",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.FailingTarget>;
-    getContractAt(
-      name: "FIACoin",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.FIACoin>;
-    getContractAt(
-      name: "FIACoin",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.FIACoin>;
-    getContractAt(
-      name: "FIACoinV4",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.FIACoinV4>;
-    getContractAt(
-      name: "FIACoinV5",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.FIACoinV5>;
-    getContractAt(
       name: "FIACoinV6",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -349,26 +304,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuard>;
     deployContract(
-      name: "FailingTarget",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FailingTarget>;
-    deployContract(
-      name: "FIACoin",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoin>;
-    deployContract(
-      name: "FIACoin",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoin>;
-    deployContract(
-      name: "FIACoinV4",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoinV4>;
-    deployContract(
-      name: "FIACoinV5",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoinV5>;
-    deployContract(
       name: "FIACoinV6",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FIACoinV6>;
@@ -490,31 +425,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuard>;
-    deployContract(
-      name: "FailingTarget",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FailingTarget>;
-    deployContract(
-      name: "FIACoin",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoin>;
-    deployContract(
-      name: "FIACoin",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoin>;
-    deployContract(
-      name: "FIACoinV4",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoinV4>;
-    deployContract(
-      name: "FIACoinV5",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FIACoinV5>;
     deployContract(
       name: "FIACoinV6",
       args: any[],

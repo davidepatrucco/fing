@@ -43,6 +43,8 @@ export interface FIACoinV6Interface extends Interface {
       | "balanceOf"
       | "batchTransfer"
       | "burn"
+      | "calculateRewards"
+      | "claimRewards"
       | "decimals"
       | "emergencyPause"
       | "emergencyUnpause"
@@ -52,6 +54,7 @@ export interface FIACoinV6Interface extends Interface {
       | "feeToFounderBP"
       | "feeToTreasuryBP"
       | "founderWallet"
+      | "getStakeCount"
       | "getVotingPower"
       | "hasVoted"
       | "isFeeExempt"
@@ -67,12 +70,14 @@ export interface FIACoinV6Interface extends Interface {
       | "proposals"
       | "propose"
       | "protectedTransfer"
+      | "regularMint"
       | "renounceOwnership"
       | "rewardPool"
       | "setExecutor"
       | "setFeeDistribution"
       | "setFeeExempt"
       | "setTotalFeeBP"
+      | "stake"
       | "stakingAPY"
       | "symbol"
       | "tokenStats"
@@ -85,6 +90,7 @@ export interface FIACoinV6Interface extends Interface {
       | "transferWithData"
       | "treasury"
       | "txLimits"
+      | "unstake"
       | "usedNonces"
       | "userStakes"
       | "userStats"
@@ -180,6 +186,14 @@ export interface FIACoinV6Interface extends Interface {
     values: [AddressLike[], BigNumberish[]]
   ): string;
   encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "calculateRewards",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimRewards",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "emergencyPause",
@@ -209,6 +223,10 @@ export interface FIACoinV6Interface extends Interface {
   encodeFunctionData(
     functionFragment: "founderWallet",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getStakeCount",
+    values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "getVotingPower",
@@ -262,6 +280,10 @@ export interface FIACoinV6Interface extends Interface {
     values: [AddressLike, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "regularMint",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
@@ -284,6 +306,10 @@ export interface FIACoinV6Interface extends Interface {
   encodeFunctionData(
     functionFragment: "setTotalFeeBP",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "stake",
+    values: [BigNumberish, BigNumberish, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "stakingAPY",
@@ -324,6 +350,10 @@ export interface FIACoinV6Interface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
   encodeFunctionData(functionFragment: "txLimits", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "unstake",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "usedNonces",
     values: [BytesLike]
@@ -401,6 +431,14 @@ export interface FIACoinV6Interface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "calculateRewards",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimRewards",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "emergencyPause",
@@ -426,6 +464,10 @@ export interface FIACoinV6Interface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "founderWallet",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getStakeCount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -468,6 +510,10 @@ export interface FIACoinV6Interface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "regularMint",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
@@ -488,6 +534,7 @@ export interface FIACoinV6Interface extends Interface {
     functionFragment: "setTotalFeeBP",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "stakingAPY", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenStats", data: BytesLike): Result;
@@ -515,6 +562,7 @@ export interface FIACoinV6Interface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "txLimits", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "unstake", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "usedNonces", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "userStakes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "userStats", data: BytesLike): Result;
@@ -955,6 +1003,18 @@ export interface FIACoinV6 extends BaseContract {
 
   burn: TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
 
+  calculateRewards: TypedContractMethod<
+    [user: AddressLike, stakeIndex: BigNumberish],
+    [bigint],
+    "view"
+  >;
+
+  claimRewards: TypedContractMethod<
+    [stakeIndex: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
   decimals: TypedContractMethod<[], [bigint], "view">;
 
   emergencyPause: TypedContractMethod<[], [void], "nonpayable">;
@@ -976,6 +1036,8 @@ export interface FIACoinV6 extends BaseContract {
   feeToTreasuryBP: TypedContractMethod<[], [bigint], "view">;
 
   founderWallet: TypedContractMethod<[], [string], "view">;
+
+  getStakeCount: TypedContractMethod<[user: AddressLike], [bigint], "view">;
 
   getVotingPower: TypedContractMethod<[account: AddressLike], [bigint], "view">;
 
@@ -1060,6 +1122,12 @@ export interface FIACoinV6 extends BaseContract {
     "nonpayable"
   >;
 
+  regularMint: TypedContractMethod<
+    [to: AddressLike, amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
 
   rewardPool: TypedContractMethod<[], [bigint], "view">;
@@ -1084,6 +1152,12 @@ export interface FIACoinV6 extends BaseContract {
 
   setTotalFeeBP: TypedContractMethod<
     [_totalFeeBP: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
+  stake: TypedContractMethod<
+    [amount: BigNumberish, lockPeriod: BigNumberish, autoCompound: boolean],
     [void],
     "nonpayable"
   >;
@@ -1149,6 +1223,12 @@ export interface FIACoinV6 extends BaseContract {
       }
     ],
     "view"
+  >;
+
+  unstake: TypedContractMethod<
+    [stakeIndex: BigNumberish],
+    [void],
+    "nonpayable"
   >;
 
   usedNonces: TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
@@ -1260,6 +1340,16 @@ export interface FIACoinV6 extends BaseContract {
     nameOrSignature: "burn"
   ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
   getFunction(
+    nameOrSignature: "calculateRewards"
+  ): TypedContractMethod<
+    [user: AddressLike, stakeIndex: BigNumberish],
+    [bigint],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "claimRewards"
+  ): TypedContractMethod<[stakeIndex: BigNumberish], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "decimals"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
@@ -1286,6 +1376,9 @@ export interface FIACoinV6 extends BaseContract {
   getFunction(
     nameOrSignature: "founderWallet"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "getStakeCount"
+  ): TypedContractMethod<[user: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "getVotingPower"
   ): TypedContractMethod<[account: AddressLike], [bigint], "view">;
@@ -1385,6 +1478,13 @@ export interface FIACoinV6 extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "regularMint"
+  ): TypedContractMethod<
+    [to: AddressLike, amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
     nameOrSignature: "renounceOwnership"
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
@@ -1410,6 +1510,13 @@ export interface FIACoinV6 extends BaseContract {
   getFunction(
     nameOrSignature: "setTotalFeeBP"
   ): TypedContractMethod<[_totalFeeBP: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "stake"
+  ): TypedContractMethod<
+    [amount: BigNumberish, lockPeriod: BigNumberish, autoCompound: boolean],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "stakingAPY"
   ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
@@ -1481,6 +1588,9 @@ export interface FIACoinV6 extends BaseContract {
     ],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "unstake"
+  ): TypedContractMethod<[stakeIndex: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "usedNonces"
   ): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;

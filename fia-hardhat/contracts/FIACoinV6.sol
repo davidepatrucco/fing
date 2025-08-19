@@ -311,6 +311,14 @@ contract FIACoinV6 is ERC20, Ownable, Pausable, ReentrancyGuard {
     }
 
     /**
+     * @notice Public mint function to test regular mint path in _update.
+     * OnlyOwner and NOT during initialization.
+     */
+    function regularMint(address to, uint256 amount) external onlyOwner {
+        _mint(to, amount);
+    }
+
+    /**
      * @notice Test-only helper to create a proposal bypassing PROPOSAL_THRESHOLD.
      * OnlyOwner.
      */
