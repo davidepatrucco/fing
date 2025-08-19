@@ -254,28 +254,35 @@ describe('FIACoinV5 - Comprehensive Tests', function () {
   await fia.setTransactionLimits(limits.maxTxAmount, limits.maxWalletAmount, 0, true);
     });
 
-  it.skip('should prevent same-block transactions (flaky - skipped)', async function () {
+  it('should prevent same-block transactions', async function () {
       const fiaUser1 = fia.connect(user1);
-      
-      // First transaction
-      // Disable automine so we can include both txs in the same block
-      await ethers.provider.send('evm_setAutomine', [false]);
-      const tx1 = await fiaUser1.protectedTransfer(user2.address, TRANSFER_AMOUNT, 1);
-      const tx2Promise = fiaUser1.protectedTransfer(user3.address, TRANSFER_AMOUNT, 2);
-      // Mine a block containing both transactions
-      await ethers.provider.send('evm_mine');
-      // Re-enable automine
-      await ethers.provider.send('evm_setAutomine', [true]);
 
-      // tx1 should succeed, tx2 should have reverted in-block due to 'Same block transaction'
-      await tx1.wait();
-      try {
-        const tx2 = await tx2Promise;
-        await tx2.wait();
-        throw new Error('Expected tx2 to revert but it succeeded');
-      } catch (err: any) {
-        expect(err.message).to.include('Same block transaction');
-      }
+  // Deploy TestCaller to execute both transfers in same transaction
+  const TestCaller = await ethers.getContractFactory('TestCaller');
+  const caller = await TestCaller.deploy();
+  await caller.waitForDeployment();
+
+  // Fund user1's account is handled in beforeEach; ensure caller has allowance or funds if needed
+  // Fund the caller contract so it can transfer tokens in its calls
+  await fia.transfer(caller.target, TRANSFER_AMOUNT * 2n);
+
+  // Execute the actual transaction to apply state changes
+  const tx = await caller.callTwo(fia.target, user2.address, TRANSFER_AMOUNT, 1, user3.address, TRANSFER_AMOUNT, 2);
+  await tx.wait();
+
+  // Determine which transfer succeeded by inspecting balances
+  const bal2 = await fia.balanceOf(user2.address);
+  const bal3 = await fia.balanceOf(user3.address);
+
+  const succeeded = (bal2 > 0n ? 1 : 0) + (bal3 > 0n ? 1 : 0);
+  expect(succeeded).to.equal(1);
+
+  // The winner should have received TRANSFER_AMOUNT minus fees
+  const totalFeeBP = Number(await fia.totalFeeBP());
+  const feeAmount = (TRANSFER_AMOUNT * BigInt(totalFeeBP)) / 10000n;
+  const expectedReceived = TRANSFER_AMOUNT - feeAmount;
+
+  expect(bal2 === expectedReceived || bal3 === expectedReceived).to.be.true;
     });
 
     it('should prevent nonce reuse', async function () {

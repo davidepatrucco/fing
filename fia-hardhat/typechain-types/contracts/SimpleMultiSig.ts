@@ -26,20 +26,37 @@ import type {
 export interface SimpleMultiSigInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "addOwner"
+      | "changeRequirement"
       | "confirmTransaction"
       | "executeTransaction"
       | "isConfirmed"
       | "isOwner"
       | "owners"
+      | "removeOwner"
       | "required"
       | "submitTransaction"
       | "transactions"
   ): FunctionFragment;
 
   getEvent(
-    nameOrSignatureOrTopic: "Confirm" | "Execute" | "Submit"
+    nameOrSignatureOrTopic:
+      | "Confirm"
+      | "Execute"
+      | "OwnerAdded"
+      | "OwnerRemoved"
+      | "RequirementChanged"
+      | "Submit"
   ): EventFragment;
 
+  encodeFunctionData(
+    functionFragment: "addOwner",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeRequirement",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "confirmTransaction",
     values: [BigNumberish]
@@ -60,6 +77,10 @@ export interface SimpleMultiSigInterface extends Interface {
     functionFragment: "owners",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "removeOwner",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(functionFragment: "required", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "submitTransaction",
@@ -70,6 +91,11 @@ export interface SimpleMultiSigInterface extends Interface {
     values: [BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "addOwner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changeRequirement",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "confirmTransaction",
     data: BytesLike
@@ -84,6 +110,10 @@ export interface SimpleMultiSigInterface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "isOwner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owners", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeOwner",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "required", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "submitTransaction",
@@ -113,6 +143,42 @@ export namespace ExecuteEvent {
   export type OutputTuple = [txId: bigint];
   export interface OutputObject {
     txId: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace OwnerAddedEvent {
+  export type InputTuple = [owner: AddressLike];
+  export type OutputTuple = [owner: string];
+  export interface OutputObject {
+    owner: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace OwnerRemovedEvent {
+  export type InputTuple = [owner: AddressLike];
+  export type OutputTuple = [owner: string];
+  export interface OutputObject {
+    owner: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace RequirementChangedEvent {
+  export type InputTuple = [required: BigNumberish];
+  export type OutputTuple = [required: bigint];
+  export interface OutputObject {
+    required: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -188,6 +254,14 @@ export interface SimpleMultiSig extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  addOwner: TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
+
+  changeRequirement: TypedContractMethod<
+    [_required: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
   confirmTransaction: TypedContractMethod<
     [txId: BigNumberish],
     [void],
@@ -209,6 +283,12 @@ export interface SimpleMultiSig extends BaseContract {
   isOwner: TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
 
   owners: TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+
+  removeOwner: TypedContractMethod<
+    [ownerToRemove: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
   required: TypedContractMethod<[], [bigint], "view">;
 
@@ -237,6 +317,12 @@ export interface SimpleMultiSig extends BaseContract {
   ): T;
 
   getFunction(
+    nameOrSignature: "addOwner"
+  ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "changeRequirement"
+  ): TypedContractMethod<[_required: BigNumberish], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "confirmTransaction"
   ): TypedContractMethod<[txId: BigNumberish], [void], "nonpayable">;
   getFunction(
@@ -255,6 +341,9 @@ export interface SimpleMultiSig extends BaseContract {
   getFunction(
     nameOrSignature: "owners"
   ): TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+  getFunction(
+    nameOrSignature: "removeOwner"
+  ): TypedContractMethod<[ownerToRemove: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "required"
   ): TypedContractMethod<[], [bigint], "view">;
@@ -296,6 +385,27 @@ export interface SimpleMultiSig extends BaseContract {
     ExecuteEvent.OutputObject
   >;
   getEvent(
+    key: "OwnerAdded"
+  ): TypedContractEvent<
+    OwnerAddedEvent.InputTuple,
+    OwnerAddedEvent.OutputTuple,
+    OwnerAddedEvent.OutputObject
+  >;
+  getEvent(
+    key: "OwnerRemoved"
+  ): TypedContractEvent<
+    OwnerRemovedEvent.InputTuple,
+    OwnerRemovedEvent.OutputTuple,
+    OwnerRemovedEvent.OutputObject
+  >;
+  getEvent(
+    key: "RequirementChanged"
+  ): TypedContractEvent<
+    RequirementChangedEvent.InputTuple,
+    RequirementChangedEvent.OutputTuple,
+    RequirementChangedEvent.OutputObject
+  >;
+  getEvent(
     key: "Submit"
   ): TypedContractEvent<
     SubmitEvent.InputTuple,
@@ -324,6 +434,39 @@ export interface SimpleMultiSig extends BaseContract {
       ExecuteEvent.InputTuple,
       ExecuteEvent.OutputTuple,
       ExecuteEvent.OutputObject
+    >;
+
+    "OwnerAdded(address)": TypedContractEvent<
+      OwnerAddedEvent.InputTuple,
+      OwnerAddedEvent.OutputTuple,
+      OwnerAddedEvent.OutputObject
+    >;
+    OwnerAdded: TypedContractEvent<
+      OwnerAddedEvent.InputTuple,
+      OwnerAddedEvent.OutputTuple,
+      OwnerAddedEvent.OutputObject
+    >;
+
+    "OwnerRemoved(address)": TypedContractEvent<
+      OwnerRemovedEvent.InputTuple,
+      OwnerRemovedEvent.OutputTuple,
+      OwnerRemovedEvent.OutputObject
+    >;
+    OwnerRemoved: TypedContractEvent<
+      OwnerRemovedEvent.InputTuple,
+      OwnerRemovedEvent.OutputTuple,
+      OwnerRemovedEvent.OutputObject
+    >;
+
+    "RequirementChanged(uint256)": TypedContractEvent<
+      RequirementChangedEvent.InputTuple,
+      RequirementChangedEvent.OutputTuple,
+      RequirementChangedEvent.OutputObject
+    >;
+    RequirementChanged: TypedContractEvent<
+      RequirementChangedEvent.InputTuple,
+      RequirementChangedEvent.OutputTuple,
+      RequirementChangedEvent.OutputObject
     >;
 
     "Submit(uint256,address,address,uint256)": TypedContractEvent<

@@ -66,6 +66,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FIACoinV5__factory>;
     getContractFactory(
+      name: "FIACoinV6",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FIACoinV6__factory>;
+    getContractFactory(
       name: "IUniswapV3Factory",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IUniswapV3Factory__factory>;
@@ -94,6 +98,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MockLP__factory>;
     getContractFactory(
+      name: "MockSafe",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MockSafe__factory>;
+    getContractFactory(
       name: "MockToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MockToken__factory>;
@@ -117,6 +125,14 @@ declare module "hardhat/types/runtime" {
       name: "SimpleMultiSig",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SimpleMultiSig__factory>;
+    getContractFactory(
+      name: "IFIACoin",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IFIACoin__factory>;
+    getContractFactory(
+      name: "TestCaller",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TestCaller__factory>;
     getContractFactory(
       name: "IFIA",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -192,6 +208,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.FIACoinV5>;
     getContractAt(
+      name: "FIACoinV6",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FIACoinV6>;
+    getContractAt(
       name: "IUniswapV3Factory",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -227,6 +248,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.MockLP>;
     getContractAt(
+      name: "MockSafe",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MockSafe>;
+    getContractAt(
       name: "MockToken",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -256,6 +282,16 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.SimpleMultiSig>;
+    getContractAt(
+      name: "IFIACoin",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IFIACoin>;
+    getContractAt(
+      name: "TestCaller",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TestCaller>;
     getContractAt(
       name: "IFIA",
       address: string | ethers.Addressable,
@@ -320,6 +356,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FIACoinV5>;
     deployContract(
+      name: "FIACoinV6",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FIACoinV6>;
+    deployContract(
       name: "IUniswapV3Factory",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IUniswapV3Factory>;
@@ -348,6 +388,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockLP>;
     deployContract(
+      name: "MockSafe",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MockSafe>;
+    deployContract(
       name: "MockToken",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockToken>;
@@ -371,6 +415,14 @@ declare module "hardhat/types/runtime" {
       name: "SimpleMultiSig",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SimpleMultiSig>;
+    deployContract(
+      name: "IFIACoin",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IFIACoin>;
+    deployContract(
+      name: "TestCaller",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TestCaller>;
     deployContract(
       name: "IFIA",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -446,6 +498,11 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FIACoinV5>;
     deployContract(
+      name: "FIACoinV6",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FIACoinV6>;
+    deployContract(
       name: "IUniswapV3Factory",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -481,6 +538,11 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockLP>;
     deployContract(
+      name: "MockSafe",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MockSafe>;
+    deployContract(
       name: "MockToken",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -510,6 +572,16 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SimpleMultiSig>;
+    deployContract(
+      name: "IFIACoin",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IFIACoin>;
+    deployContract(
+      name: "TestCaller",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TestCaller>;
     deployContract(
       name: "IFIA",
       args: any[],

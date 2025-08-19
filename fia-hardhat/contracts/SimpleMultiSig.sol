@@ -20,6 +20,9 @@ contract SimpleMultiSig {
     event Submit(uint256 indexed txId, address indexed proposer, address to, uint256 value);
     event Confirm(address indexed owner, uint256 indexed txId);
     event Execute(uint256 indexed txId);
+    event OwnerAdded(address indexed owner);
+    event OwnerRemoved(address indexed owner);
+    event RequirementChanged(uint256 required);
 
     constructor(address[] memory _owners, uint256 _required) {
         require(_owners.length >= _required && _required > 0, "Invalid multisig config");
@@ -57,6 +60,60 @@ contract SimpleMultiSig {
 
     function confirmTransaction(uint256 txId) external onlyOwner {
         _confirm(txId);
+    }
+
+    /**
+     * @notice Add a new owner. Requires caller to be an existing owner.
+     * @param newOwner Address of the owner to add
+     */
+    function addOwner(address newOwner) external onlyOwner {
+        require(newOwner != address(0), "Zero owner");
+        require(!isOwner[newOwner], "Already owner");
+
+        isOwner[newOwner] = true;
+        owners.push(newOwner);
+        emit OwnerAdded(newOwner);
+    }
+
+    /**
+     * @notice Remove an existing owner. Ensure that after removal the number of owners is >= required.
+     * @param ownerToRemove Address of the owner to remove
+     */
+    function removeOwner(address ownerToRemove) external onlyOwner {
+        require(isOwner[ownerToRemove], "Not an owner");
+        // cannot remove such that owners.length - 1 < required
+        require(owners.length - 1 >= required, "Remove would violate required confirmations");
+
+        // find index
+        uint256 idx = type(uint256).max;
+        for (uint256 i = 0; i < owners.length; i++) {
+            if (owners[i] == ownerToRemove) {
+                idx = i;
+                break;
+            }
+        }
+        require(idx != type(uint256).max, "Owner not found");
+
+        // remove from owners array
+        isOwner[ownerToRemove] = false;
+        // swap and pop
+        if (idx != owners.length - 1) {
+            owners[idx] = owners[owners.length - 1];
+        }
+        owners.pop();
+
+        emit OwnerRemoved(ownerToRemove);
+    }
+
+    /**
+     * @notice Change the required number of confirmations (threshold).
+     * @param _required New required confirmations
+     */
+    function changeRequirement(uint256 _required) external onlyOwner {
+        require(_required > 0, "Required must be > 0");
+        require(_required <= owners.length, "Required cannot exceed owner count");
+        required = _required;
+        emit RequirementChanged(required);
     }
 
     function executeTransaction(uint256 txId) external {
