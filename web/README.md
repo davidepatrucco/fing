@@ -48,8 +48,18 @@ A comprehensive Next.js web application for the FIACoin ecosystem, supporting bo
    cp .env.example .env.local
    ```
    
+   Copy the example environment file and edit it:
+   ```bash
+   cp .env.local.example .env.local
+   ```
+   
    Edit `.env.local` with your configuration:
    ```env
+   # Basic Authentication (for stealth mode)
+   # Remove or leave empty to disable authentication
+   AUTH_USERNAME=admin
+   AUTH_PASSWORD=your-secure-password
+   
    # RPC Configuration
    NEXT_PUBLIC_RPC_URL=http://localhost:8545
    RPC_BASE_SEPOLIA=https://sepolia.base.org
@@ -180,6 +190,9 @@ npm run indexer:index 0 latest
 
 ## Security
 
+- **Website Authentication**: Basic HTTP authentication protects the entire site during development/stealth mode
+  - Set `AUTH_USERNAME` and `AUTH_PASSWORD` environment variables to enable
+  - Remove these variables to disable authentication for public access
 - Private keys are never exposed to the frontend
 - Admin endpoints require authentication
 - Input validation on all user data
